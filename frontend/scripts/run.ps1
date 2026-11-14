@@ -26,7 +26,7 @@ $env:PATH = (Split-Path -Parent $selectedNode) + ';' + $env:PATH
 Push-Location -LiteralPath $projectRoot
 try {
     switch ($Task) {
-        'dev' { & $selectedNode 'node_modules/vite/bin/vite.js' '--host' '127.0.0.1' }
+        'dev' { & $selectedNode 'node_modules/vite/bin/vite.js' '--host' '127.0.0.1' '--port' '5173' '--strictPort' }
         'preview' { & $selectedNode 'node_modules/vite/bin/vite.js' 'preview' '--host' '127.0.0.1' }
         'typecheck' { & $selectedNode 'node_modules/vue-tsc/bin/vue-tsc.js' '-b' }
         'build' {

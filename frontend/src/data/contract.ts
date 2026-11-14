@@ -1,4 +1,4 @@
-import type { CaseEntry, DataKind, FloodCase, ImageCorners, Interpretation, Position, ViewMode } from '../types'
+import type { CaseEntry, DataKind, FloodCase, ImageCorners, Interpretation, Position, PreparedCollection, LegendEntry, ViewMode } from '../types'
 
 function object(value: unknown, name: string): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${name} must be an object.`)
@@ -33,7 +33,7 @@ function position(value: unknown, name: string): Position {
   if (x < -180 || x > 180 || y < -85 || y > 85) throw new Error(`${name} is outside map bounds.`)
   return [x, y]
 }
-const kinds: DataKind[] = ['real-observation', 'surrogate', 'synthetic-demo']
+const kinds: DataKind[] = ['real-observation', 'surrogate', 'synthetic-demo', 'team-export']
 const views: ViewMode[] = ['before', 'compare', 'after']
 const meanings: Interpretation[] = ['radar-response-change', 'possible-inundation', 'supported-flood-interpretation']
 
@@ -72,9 +72,47 @@ export function parseIndex(value: unknown): CaseEntry[] {
   return entries
 }
 
+function calendarDate(value: unknown, name: string): string {
+  const date = text(value, name)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date) throw new Error(`${name} must be a real calendar date.`)
+  return date
+}
+function parseLegend(value: unknown): LegendEntry[] {
+  const entries = array(value, 'legend').map((value) => {
+    const item = object(value, 'legend entry'), color = text(item.color, 'legend color')
+    if (!/^#[0-9a-f]{6}$/i.test(color)) throw new Error('Legend colors must use #RRGGBB.')
+    return { label: text(item.label, 'legend label'), color }
+  })
+  if (!entries.length) throw new Error('A measurement legend is required.')
+  return entries
+}
+function parseCollection(value: unknown): PreparedCollection {
+  const item = object(value, 'collection')
+  const observations = array(item.observations, 'observations').map((value) => {
+    const o = object(value, 'prepared observation')
+    return { date: calendarDate(o.date, 'prepared date'), image: asset(o.image, 'image'), radarImage: asset(o.radarImage, 'radarImage'), inputId: text(o.inputId, 'inputId') }
+  })
+  if (observations.length < 2 || observations.length > 50 || observations.some((o, i) => i > 0 && o.date <= observations[i - 1]!.date)) throw new Error('Prepared dates must be unique and chronological (2–50 dates).')
+  const layers = array(item.layers, 'layers').map((value) => {
+    const layer = object(value, 'prepared layer')
+    return { id: choice(layer.id, ['frequency', 'water_class', 'change'] as const, 'layer.id'), label: text(layer.label, 'layer.label'), description: text(layer.description, 'layer.description'), image: asset(layer.image, 'layer.image'), legend: parseLegend(layer.legend) }
+  })
+  if (new Set(layers.map((l) => l.id)).size !== layers.length) throw new Error('Prepared layer IDs must be unique.')
+  const series = array(item.series, 'series').map((value, i) => {
+    const row = object(value, 'area row')
+    const date = calendarDate(row.date, 'series.date')
+    const open_water = number(row.open_water, 'open_water'), flooded_veg = number(row.flooded_veg, 'flooded_veg'), total = number(row.total, 'total')
+    if (date !== observations[i]?.date || Math.min(open_water, flooded_veg, total) < 0 || Math.abs(open_water + flooded_veg - total) > .15) throw new Error('Reported area rows must match prepared dates and class totals.')
+    return { date, open_water, flooded_veg, total }
+  })
+  if (series.length !== observations.length) throw new Error('Reported series must match prepared dates.')
+  return { observations, layers, series }
+}
+
 export function parseCase(value: unknown): FloodCase {
   const r = object(value, 'Case manifest')
   if (r.schemaVersion !== 1) throw new Error('Unsupported case schema version.')
+  const dataKind = choice(r.dataKind, kinds, 'dataKind')
   const bounds = array(r.bounds, 'bounds').map((n) => number(n, 'bounds'))
   if (bounds.length !== 4 || bounds[0]! >= bounds[2]! || bounds[1]! >= bounds[3]!) throw new Error('bounds must be [west, south, east, north].')
   position(bounds.slice(0, 2), 'bounds'); position(bounds.slice(2), 'bounds')
@@ -84,7 +122,8 @@ export function parseCase(value: unknown): FloodCase {
   if (corners.some((p, i) => p.some((coordinate, j) => Math.abs(coordinate - expectedCorners[i]![j]!) > 0.000001))) throw new Error('Image corners must match bounds in top-left, top-right, bottom-right, bottom-left order.')
   const observation = (value: unknown, name: string) => {
     const o = object(value, name), date = text(o.date, `${name}.date`)
-    if (!/^\d{4}-\d{2}-\d{2}T.*Z$/.test(date) || !Number.isFinite(Date.parse(date))) throw new Error(`${name}.date must be a valid UTC timestamp.`)
+    if (dataKind === 'team-export' && /^\d{4}-\d{2}-\d{2}$/.test(date)) calendarDate(date, name)
+    else if (!/^\d{4}-\d{2}-\d{2}T.*Z$/.test(date) || !Number.isFinite(Date.parse(date))) throw new Error(`${name}.date must be a valid UTC timestamp.`)
     if (new Date(date).toISOString().slice(0, 10) !== date.slice(0, 10)) throw new Error(`${name}.date must be a real calendar date.`)
     return { label: text(o.label, `${name}.label`), date, image: asset(o.image, `${name}.image`), inputId: text(o.inputId, `${name}.inputId`) }
   }
@@ -93,26 +132,29 @@ export function parseCase(value: unknown): FloodCase {
   const change = r.change === undefined ? undefined : object(r.change, 'change')
   const areas = r.areas === undefined ? undefined : object(r.areas, 'areas')
   if (areas && areas.type !== 'FeatureCollection') throw new Error('areas must be a GeoJSON FeatureCollection.')
-  const legend = array(r.legend, 'legend').map((value) => {
-    const l = object(value, 'legend entry'), color = text(l.color, 'legend color')
-    if (!/^#[0-9a-f]{6}$/i.test(color)) throw new Error('Legend colors must use #RRGGBB.')
-    return { label: text(l.label, 'legend label'), color }
-  })
-  if (!legend.length) throw new Error('A measurement legend is required.')
+  const legend = parseLegend(r.legend)
   const story = array(r.story, 'story').map((value) => {
     const s = object(value, 'story step'), zoom = number(s.zoom, 'story.zoom')
     if (zoom < 0 || zoom > 18) throw new Error('Story zoom is outside 0–18.')
     return { title: text(s.title, 'story.title'), body: text(s.body, 'story.body'), center: position(s.center, 'story.center'), zoom, view: choice(s.view, views, 'story.view') }
   })
-  const dataKind = choice(r.dataKind, kinds, 'dataKind')
   const reviewStatus = choice(r.reviewStatus, ['unreviewed', 'qualitatively-reviewed', 'independently-validated'] as const, 'reviewStatus')
   if (dataKind === 'synthetic-demo' && reviewStatus !== 'unreviewed') throw new Error('Synthetic fixtures cannot claim scientific validation.')
+  if (dataKind === 'team-export' && reviewStatus !== 'unreviewed') throw new Error('Team exports with pending provenance must remain unreviewed.')
+  const coverageType = r.coverageType === undefined ? undefined : choice(r.coverageType, ['analysis-support', 'display-extent'] as const, 'coverageType')
+  if (dataKind === 'team-export' && coverageType !== 'display-extent') throw new Error('Team exports require explicit display-extent context.')
+  const collection = r.collection === undefined ? undefined : parseCollection(r.collection)
+  if (collection && dataKind !== 'team-export') throw new Error('Prepared export collections require the team-export label.')
+  if (collection && ![before, after].every((frame) => collection.observations.some((o) => o.date === frame.date && o.image === frame.image && o.inputId === frame.inputId))) throw new Error('Default pair must match prepared observations.')
   return {
     schemaVersion: 1, id: text(r.id, 'id'), title: text(r.title, 'title'), location: text(r.location, 'location'), description: text(r.description, 'description'),
     dataKind, reviewStatus, interpretation: choice(r.interpretation, meanings, 'interpretation'),
     instrument: text(r.instrument, 'instrument'), product: text(r.product, 'product'), measurement: text(r.measurement, 'measurement'), units: text(r.units, 'units'), method: text(r.method, 'method'),
+    ...(coverageType ? { coverageType } : {}),
+    ...(collection ? { collection } : {}),
+    ...(r.provenance === undefined ? {} : { provenance: asset(r.provenance, 'provenance') }),
     bounds: bounds as FloodCase['bounds'], coordinates: corners as ImageCorners, coverage: feature(r.coverage, 'coverage'), before, after,
-    ...(change ? { change: { image: asset(change.image, 'change.image'), label: text(change.label, 'change.label') } } : {}),
+    ...(change ? { change: { image: asset(change.image, 'change.image'), label: text(change.label, 'change.label'), ...(change.legend === undefined ? {} : { legend: parseLegend(change.legend) }) } } : {}),
     ...(areas ? { areas: { type: 'FeatureCollection' as const, features: array(areas.features, 'areas.features').map((f) => feature(f, 'area')) } } : {}),
     legend, observed: text(r.observed, 'observed'), explanation: text(r.explanation, 'explanation'), limitations: array(r.limitations, 'limitations').map((l) => text(l, 'limitation')),
     sources: array(r.sources, 'sources').map((value) => {

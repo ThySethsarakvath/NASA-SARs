@@ -1,6 +1,8 @@
 .map-main { position: relative; min-width: 0; min-height: 0; isolation: isolate; background: #0b1922; overflow: hidden; }
 .map-workspace, .map-surface { position: absolute; inset: 0; }
 .map-surface { width: 100%; height: 100%; }
+/* MapLibre sets position:relative; both comparison maps must share one viewport. */
+.map-workspace > .map-surface { position: absolute; inset: 0; }
 .map-before { z-index: 1; }
 .map-after { z-index: 2; }
 .map-vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; box-shadow: inset 0 0 110px 20px #08131b44; background: linear-gradient(180deg, #08131b33, transparent 30%, transparent 75%, #08131b77); }

@@ -1,0 +1,8 @@
+.landing-layer { position: relative; z-index: 21; opacity: 1; }
+.is-preparing > .explorer-layer { position: fixed; inset: 0; z-index: 20; opacity: .55; }
+.is-revealing > .landing-layer { opacity: 0; pointer-events: none; transition: opacity .65s cubic-bezier(.22,.61,.36,1); }
+.is-revealing > .explorer-layer { opacity: 1; transition: opacity .65s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .is-preparing > .explorer-layer { transform: none; }
+  .is-revealing > .landing-layer, .is-revealing > .explorer-layer { transition: none; }
+}

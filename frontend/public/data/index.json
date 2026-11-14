@@ -1,6 +1,13 @@
 {
   "cases": [
     {
+      "id": "tonle-sap-2026",
+      "title": "Tonlé Sap · 2026 team exports",
+      "location": "Cambodia · Tonlé Sap export extent",
+      "dataKind": "team-export",
+      "manifest": "/data/tonle-sap-2026/case.json"
+    },
+    {
       "id": "synthetic-tonle-sap",
       "title": "Tonle Sap study window",
       "location": "Cambodia · illustrative location",

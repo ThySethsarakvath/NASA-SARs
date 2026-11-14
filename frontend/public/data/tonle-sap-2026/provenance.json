@@ -1,0 +1,372 @@
+{
+  "archive": "webapp.zip",
+  "archiveSha256": "a703c148ff55738349b0fc13a2b421fb88171eeef5d6ea4dc3cdd3c5ccd4e817",
+  "metadataSha256": "b6386d910b1ab05309ee5a313b4d27350d538e063b05ef58487f003a6e82386b",
+  "exporterSha256": "e4302cea52f6fdf5f3d05560ad31b46534959c486646071f4304831be3bf6f18",
+  "status": "Team-provided derived exports; source products and scientific validation not verified",
+  "reportedInstrument": "NISAR L-band, as stated in the archive README",
+  "reportedDistributor": "ASF, reported by the user on behalf of the data teammate on 2026-11-14; exact catalog records not supplied",
+  "missing": [
+    "Original product/granule IDs",
+    "polarization and calibrated units",
+    "acquisition timestamps",
+    "sar_insights.py and threshold configuration",
+    "valid-data/support masks",
+    "independent validation evidence",
+    "redistribution terms"
+  ],
+  "spatialContext": "Supplied exporter specifies EPSG:3857; geographic bounds copied from data.js. Native GeoTIFFs absent.",
+  "displayPreparation": "PNG only. Nearest-neighbor resize to <=2048 pixels on longest side; no class-area calculations. Radar PNG bytes retained.",
+  "files": [
+    {
+      "archivePath": "webapp/data/water_20260619.png",
+      "sourceSha256": "6da837075074eee5af27d8ae913c65cd00cd337a4d757e0f8add0720eef1aacf",
+      "displayPath": "/data/tonle-sap-2026/water_20260619.png",
+      "displaySha256": "ea786add15d13005d797be36cefd3104562bbc32438c747ed05efb54b4b42631",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260619.png",
+      "sourceSha256": "5146bc3f6d5e870d0165e9dd38b6a562e1344a1a8abcb3abeb37d28ce97764c4",
+      "displayPath": "/data/tonle-sap-2026/sar_20260619.png",
+      "displaySha256": "5146bc3f6d5e870d0165e9dd38b6a562e1344a1a8abcb3abeb37d28ce97764c4",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260701.png",
+      "sourceSha256": "be5f14858d1e964c402425bd5f1f5407a0d1923757de39043781de20856ee823",
+      "displayPath": "/data/tonle-sap-2026/water_20260701.png",
+      "displaySha256": "e31ea076df22579ad52fc046f1a6537c85eb9268e4f4c66e6349e32d6a91a29f",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260701.png",
+      "sourceSha256": "d1ec76d57443f9a193f327619c261d8524971c5696fa9b810fe908b4243d3766",
+      "displayPath": "/data/tonle-sap-2026/sar_20260701.png",
+      "displaySha256": "d1ec76d57443f9a193f327619c261d8524971c5696fa9b810fe908b4243d3766",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260713.png",
+      "sourceSha256": "88c6402b7f04dd99ca68148ed9bb7778272639554f598b93ce6d029440cc229e",
+      "displayPath": "/data/tonle-sap-2026/water_20260713.png",
+      "displaySha256": "63fbd2252f6f815be6a306f860be8a19eafba69191e7341f56ee50ba8898d919",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260713.png",
+      "sourceSha256": "b804d691333fb548b8368b3614c0e40259f64dff0a3a62840e323ef402e8e230",
+      "displayPath": "/data/tonle-sap-2026/sar_20260713.png",
+      "displaySha256": "b804d691333fb548b8368b3614c0e40259f64dff0a3a62840e323ef402e8e230",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260725.png",
+      "sourceSha256": "22102aaf43cc409efd57d1d7dbffa61bf79ed4a58b76644a76ea4cb7ec65f9e7",
+      "displayPath": "/data/tonle-sap-2026/water_20260725.png",
+      "displaySha256": "becc4198e5180e0a871a2aa5d784ee4779bfabb644cbdcd64bcdc29387b2c1a2",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260725.png",
+      "sourceSha256": "5d8327dd0930c1f1b0b5601791d497f90938e47340b52f41741c707c95d3145b",
+      "displayPath": "/data/tonle-sap-2026/sar_20260725.png",
+      "displaySha256": "5d8327dd0930c1f1b0b5601791d497f90938e47340b52f41741c707c95d3145b",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260818.png",
+      "sourceSha256": "262dd49bebce1889bcb1103ad844722c2839a09e636ef8f9791032b8d1ff6ce9",
+      "displayPath": "/data/tonle-sap-2026/water_20260818.png",
+      "displaySha256": "db9a663bf81a486c6f580ac0a406bc07ce8a62a88f0d689b597b13e3673d9787",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260818.png",
+      "sourceSha256": "ad4860b40ec57d8e205f1eb5b6fe21daec9c596d841c6fbbfc1473f6b2df8803",
+      "displayPath": "/data/tonle-sap-2026/sar_20260818.png",
+      "displaySha256": "ad4860b40ec57d8e205f1eb5b6fe21daec9c596d841c6fbbfc1473f6b2df8803",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260830.png",
+      "sourceSha256": "7f837aee33cc71458f6e2e2a8c4e795c8872685d73e9a58ec02624ebbb462d8e",
+      "displayPath": "/data/tonle-sap-2026/water_20260830.png",
+      "displaySha256": "a8c7ca9f81918eb5959846df668338f439a72f2baa383908f97121ab76f268c9",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260830.png",
+      "sourceSha256": "8007e94e695274612506bf45703b513cc86c12af9d9833c96f43c0c84b2c1c8c",
+      "displayPath": "/data/tonle-sap-2026/sar_20260830.png",
+      "displaySha256": "8007e94e695274612506bf45703b513cc86c12af9d9833c96f43c0c84b2c1c8c",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260911.png",
+      "sourceSha256": "cce198edc197bcf5d45a3b6ebbbf299e4050cb4abaa2caf8d2414ad68172ec15",
+      "displayPath": "/data/tonle-sap-2026/water_20260911.png",
+      "displaySha256": "777ff823ea04ad9c6cd8b86fecb654d8be1bb7b05689441a9031e6682fde19ab",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260911.png",
+      "sourceSha256": "4c60aefbbff22614ed7ea31c60c75ebcaf5f90f1ac333158fbe79c57fa214e5d",
+      "displayPath": "/data/tonle-sap-2026/sar_20260911.png",
+      "displaySha256": "4c60aefbbff22614ed7ea31c60c75ebcaf5f90f1ac333158fbe79c57fa214e5d",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20260923.png",
+      "sourceSha256": "ae0f0c6ade01b4d92f9f8dd4b667ceb8d93865179ecab21dd32ca8224fca169f",
+      "displayPath": "/data/tonle-sap-2026/water_20260923.png",
+      "displaySha256": "ec7c47e8e03a31849b4bcec7b78b57ec2350114d231d2712defbe7921280a365",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20260923.png",
+      "sourceSha256": "6ed4d13a38273a54778248d318b26773fde9992c3a3b004c2cacd75fa2e03810",
+      "displayPath": "/data/tonle-sap-2026/sar_20260923.png",
+      "displaySha256": "6ed4d13a38273a54778248d318b26773fde9992c3a3b004c2cacd75fa2e03810",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20261005.png",
+      "sourceSha256": "f6ce518a108f850a9a0082531529be6bc212a6bc804f9de900d0c9d96332404f",
+      "displayPath": "/data/tonle-sap-2026/water_20261005.png",
+      "displaySha256": "b3453599c98fe830026c93e3d74dba47cbe3c4faeaf6d27ee89dfe3ce36f2340",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20261005.png",
+      "sourceSha256": "7fa1e485b95ebd0d2d1fa47005c5d76324f973591984efd33c548ef39cd30855",
+      "displayPath": "/data/tonle-sap-2026/sar_20261005.png",
+      "displaySha256": "7fa1e485b95ebd0d2d1fa47005c5d76324f973591984efd33c548ef39cd30855",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20261017.png",
+      "sourceSha256": "2c4a55c80e4c193a207fd7fd0206bca4702f0b9a4a1a06b31716e56b610e1d30",
+      "displayPath": "/data/tonle-sap-2026/water_20261017.png",
+      "displaySha256": "d16e173a4c7d3a0d6f248a79b4889311e55b9c7b4a5e6b0a960f2e50f5677553",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20261017.png",
+      "sourceSha256": "4b11871ce2db59f98956e7daa0666123d8cef8fc7832719d22f67f47f35da34a",
+      "displayPath": "/data/tonle-sap-2026/sar_20261017.png",
+      "displaySha256": "4b11871ce2db59f98956e7daa0666123d8cef8fc7832719d22f67f47f35da34a",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_20261029.png",
+      "sourceSha256": "6331ec4858896ff2de4b1f252c608a218bb94df3e515cbdd9df2ea497a0a1fd3",
+      "displayPath": "/data/tonle-sap-2026/water_20261029.png",
+      "displaySha256": "59becf64ac2870ce3b2e040bd56850bf1d38951d0b8c3b66a810fa32caa49cd0",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/sar_20261029.png",
+      "sourceSha256": "160364e0bf479a13af0e582ab49d6e64fbc21ae939886f8c1e757c2f7ddb7702",
+      "displayPath": "/data/tonle-sap-2026/sar_20261029.png",
+      "displaySha256": "160364e0bf479a13af0e582ab49d6e64fbc21ae939886f8c1e757c2f7ddb7702",
+      "sourceDimensions": [
+        1697,
+        1668
+      ],
+      "displayDimensions": [
+        1697,
+        1668
+      ]
+    },
+    {
+      "archivePath": "webapp/data/inundation_frequency.png",
+      "sourceSha256": "e05251de153f1e2f5e65606a7b7f1de1a4712726444fd74c14d038bb25ba1da2",
+      "displayPath": "/data/tonle-sap-2026/inundation_frequency.png",
+      "displaySha256": "a5914cd87d208ae69cd8c25c8e29218883b38e2b82de4dba388fc596ce9cd3ee",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_class.png",
+      "sourceSha256": "deee3d69ea487f11dcd17c153978700cb503edce2a16710af1095bc16998cca7",
+      "displayPath": "/data/tonle-sap-2026/water_class.png",
+      "displaySha256": "e7ca3ed13b8134e22569f1c015722109034cb1b1291aa999e83ec3c7d7c30af1",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    },
+    {
+      "archivePath": "webapp/data/water_change.png",
+      "sourceSha256": "bec8489842cf89f3c36737b6db845de36f1ce8ae2d51972d4b9af90094955de7",
+      "displayPath": "/data/tonle-sap-2026/water_change.png",
+      "displaySha256": "07eeb269784cb4c5cf1834ca7bc6e32c2b0ce4b6484336ba706c1a11d9d000a8",
+      "sourceDimensions": [
+        3394,
+        3336
+      ],
+      "displayDimensions": [
+        2048,
+        2013
+      ]
+    }
+  ]
+}

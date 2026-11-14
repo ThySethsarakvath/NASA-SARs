@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync } from 'node:fs'
 test('loads the labeled fixture, switches views, inspects evidence and completes the story', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await expect(page.getByText('Synthetic imagery · no real NISAR observations or flood findings')).toBeVisible()
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Before', exact: true })).toBeEnabled()
@@ -46,7 +46,7 @@ test('loads the labeled fixture, switches views, inspects evidence and completes
 
 test('keeps mobile layout within the viewport and exposes evidence', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await page.getByRole('button', { name: 'After', exact: true }).click()
   await page.getByRole('button', { name: 'Open evidence panel' }).click()
@@ -57,7 +57,7 @@ test('keeps mobile layout within the viewport and exposes evidence', async ({ pa
 
 test('reports missing imagery without quietly substituting another observation', async ({ page }) => {
   await page.route('**/synthetic-tonle-sap/after.png', (route) => route.fulfill({ status: 404 }))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Dismiss introduction' }).click()
   await expect(page.getByText('Observation image unavailable. Comparison is disabled.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Compare', exact: true })).toBeDisabled()
@@ -65,14 +65,14 @@ test('reports missing imagery without quietly substituting another observation',
 
 test('handles a malformed manifest explicitly', async ({ page }) => {
   await page.route('**/synthetic-tonle-sap/case.json', (route) => route.fulfill({ json: { schemaVersion: 99 } }))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await expect(page.getByRole('heading', { name: 'We couldn’t open this case.' })).toBeVisible()
   await expect(page.getByText('Unsupported case schema version.')).toBeVisible()
 })
 
 test('keeps observations available when the optional change image is missing', async ({ page }) => {
   await page.route('**/synthetic-tonle-sap/change.png', (route) => route.fulfill({ status: 404 }))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await expect(page.getByText('Change layer unavailable. Observation comparison remains available.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Before', exact: true })).toBeEnabled()
   await expect(page.getByRole('switch')).toBeDisabled()
@@ -85,21 +85,21 @@ test('switches cases without retaining old metadata and reports empty availabili
     { id: 'second', title: 'Second fixture', location: 'Illustrative', manifest: '/data/second/case.json', dataKind: 'synthetic-demo' },
   ] } }))
   await page.route('**/data/second/case.json', (route) => route.fulfill({ json: { ...fixture, id: 'second', title: 'Second fixture' } }))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await page.getByRole('button', { name: /Second fixture/ }).click()
   await expect(page.getByRole('heading', { name: 'Second fixture', exact: true })).toBeVisible()
   await expect(page.locator('.map-workspace')).toHaveAttribute('data-map-state', 'ready')
   await expect(page).toHaveURL(/case=second/)
   await page.route('**/data/index.json', (route) => route.fulfill({ json: { cases: [] } }))
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await expect(page.getByText('No study windows are available yet.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Before', exact: true })).toBeDisabled()
 })
 
 test('retains case imagery when the external basemap fails', async ({ page }) => {
   await page.route('https://tiles.openfreemap.org/**', (route) => route.abort())
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await expect(page.getByText('Basemap unavailable or incomplete · case overlays remain available')).toBeVisible()
   await expect(page.getByRole('button', { name: 'After', exact: true })).toBeEnabled()
@@ -113,7 +113,7 @@ test('offers static observations when WebGL is unavailable', async ({ page }) =>
       return original.apply(this, args)
     } as typeof original
   })
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await expect(page.getByText('Interactive map unavailable. Static observation view.')).toBeVisible()
   await page.getByRole('button', { name: 'Before', exact: true }).click()
@@ -125,14 +125,14 @@ test('keeps all target viewport sizes usable and captures review images', async 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   for (const width of [1440, 1024, 768, 390]) {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/')
+    await page.goto('/?page=explore&case=synthetic-tonle-sap')
     await expect(page.getByRole('button', { name: 'Before', exact: true })).toBeEnabled()
     await expect(page.locator('.map-workspace')).toHaveAttribute('data-map-state', 'ready')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await page.screenshot({ path: `output/playwright/explorer-${width}.png`, fullPage: true })
   }
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/')
+  await page.goto('/?page=explore&case=synthetic-tonle-sap')
   await page.getByRole('button', { name: 'Explore flooding', exact: true }).click()
   await expect(page.getByRole('region', { name: 'Welcome to the explorer' })).not.toBeVisible()
   await expect(page.getByRole('slider', { name: 'Comparison divider position' })).toBeEnabled()

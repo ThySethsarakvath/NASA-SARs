@@ -194,3 +194,15 @@
   .dialog-content { padding: 23px; }
   .dialog-content h2 { font-size: 29px; }
 }
+
+.prepared-data-bar { position: absolute; top: 50px; left: 18px; right: 18px; z-index: 10; max-width: 650px; box-shadow: 0 6px 24px #0004; }
+.prepared-data-bar[open] { max-height: calc(100% - 140px); overflow: auto; }
+@media (max-width: 1023px) { .prepared-data-bar { top: 64px; left: 13px; right: 13px; } }
+@media (max-width: 767px) { .prepared-data-bar { top: 60px; } .prepared-data-bar summary { padding: 9px 12px; } }
+
+.map-main:has(.prepared-data-bar) .frame-labels, .map-main:has(.prepared-data-bar) .single-frame-label { top: 106px; }
+.prepared-data-bar[open] ~ .map-workspace .frame-labels, .prepared-data-bar[open] ~ .map-workspace .single-frame-label { visibility: hidden; }
+@media (max-width: 767px) {
+  .map-main:has(.prepared-data-bar) .single-frame-label { top: 110px; left: 13px; max-width: calc(100% - 26px); font-size: 9px; }
+  .map-main:has(.prepared-data-bar) .single-frame-label span { display: block; margin: 4px 0 0; line-height: 1.5; }
+}

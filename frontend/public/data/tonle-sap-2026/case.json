@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "id": "tonle-sap-2026",
+  "title": "Tonlé Sap · 2026 team exports",
+  "location": "Cambodia · Tonlé Sap export extent",
+  "dataKind": "team-export",
+  "interpretation": "possible-inundation",
+  "reviewStatus": "unreviewed",
+  "description": "Eleven dated water-classification and radar-display exports supplied by the data team, June–October 2026. Source provenance and scientific review remain pending.",
+  "instrument": "Reported NISAR L-band; original products not supplied",
+  "product": "Team-derived PNG display layers; original product level, version and polarization unknown",
+  "measurement": "Team-classified water categories",
+  "units": "Unreviewed categories",
+  "method": "The supplied export_web.py specifies UTM-to-EPSG:3857 reprojection, nearest-neighbor category export, and 8-bit grayscale radar display. The analysis script, thresholds, calibration, alignment evidence and valid-support mask were not supplied. This integration converts the data wrapper to JSON and makes bounded PNG display derivatives; it performs no SAR analysis or area calculation.",
+  "bounds": [
+    102.387214,
+    11.335031,
+    105.524254,
+    14.341002
+  ],
+  "coordinates": [
+    [
+      102.387214,
+      14.341002
+    ],
+    [
+      105.524254,
+      14.341002
+    ],
+    [
+      105.524254,
+      11.335031
+    ],
+    [
+      102.387214,
+      11.335031
+    ]
+  ],
+  "coverageType": "display-extent",
+  "coverage": {
+    "type": "Feature",
+    "properties": {
+      "meaning": "Supplied rectangular export bounds, not validated analysis support"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            102.387214,
+            11.335031
+          ],
+          [
+            105.524254,
+            11.335031
+          ],
+          [
+            105.524254,
+            14.341002
+          ],
+          [
+            102.387214,
+            14.341002
+          ],
+          [
+            102.387214,
+            11.335031
+          ]
+        ]
+      ]
+    }
+  },
+  "before": {
+    "date": "2026-06-19",
+    "image": "/data/tonle-sap-2026/water_20260619.png",
+    "inputId": "Team export water_20260619.png",
+    "label": "Water classes · 2026-06-19"
+  },
+  "after": {
+    "date": "2026-10-29",
+    "image": "/data/tonle-sap-2026/water_20261029.png",
+    "inputId": "Team export water_20261029.png",
+    "label": "Water classes · 2026-10-29"
+  },
+  "change": {
+    "image": "/data/tonle-sap-2026/water_change.png",
+    "label": "First-to-last team water change",
+    "legend": [
+      {
+        "label": "Team class: water gained",
+        "color": "#2563eb"
+      },
+      {
+        "label": "Team class: water lost",
+        "color": "#dc2626"
+      }
+    ]
+  },
+  "legend": [
+    {
+      "label": "Team class: open water",
+      "color": "#2563eb"
+    },
+    {
+      "label": "Team class: flooded vegetation",
+      "color": "#16a34a"
+    }
+  ],
+  "observed": "The supplied classification PNGs contain blue open-water and green flooded-vegetation categories. These are team-generated classes, not independently confirmed flood detections. Radar views are pre-rendered 8-bit grayscale, not calibrated measurements.",
+  "explanation": "Compare the same display type across supplied dates. Transparent pixels do not distinguish unclassified land from invalid or unobserved areas. The separate change layer applies only to the first and last dates. Season maps summarize the sampled dates only.",
+  "limitations": [
+    "The team reports ASF as the download source and NISAR L-band in the archive README; exact product identifiers remain unverified.",
+    "Only date labels are supplied; exact acquisition times and time zone are unknown.",
+    "No original rasters, detector thresholds, polarization, calibrated units or independent validation were included.",
+    "Export bounds are not proof of valid observation support; transparency also includes background and missing data.",
+    "Area figures are imported team estimates, not reproduced or independently validated. Open-water area differs from total classified area.",
+    "No deforestation inference is imported: the archive explicitly skips it without a comparable earlier-year baseline.",
+    "Data-use and redistribution terms require clarification before public release."
+  ],
+  "sources": [
+    {
+      "title": "ASF Data Search — download service reported by the team; exact records pending",
+      "url": "https://search.asf.alaska.edu/"
+    }
+  ],
+  "story": [],
+  "provenance": "/data/tonle-sap-2026/provenance.json",
+  "collection": {
+    "observations": [
+      {
+        "date": "2026-06-19",
+        "image": "/data/tonle-sap-2026/water_20260619.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260619.png",
+        "inputId": "Team export water_20260619.png"
+      },
+      {
+        "date": "2026-07-01",
+        "image": "/data/tonle-sap-2026/water_20260701.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260701.png",
+        "inputId": "Team export water_20260701.png"
+      },
+      {
+        "date": "2026-07-13",
+        "image": "/data/tonle-sap-2026/water_20260713.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260713.png",
+        "inputId": "Team export water_20260713.png"
+      },
+      {
+        "date": "2026-07-25",
+        "image": "/data/tonle-sap-2026/water_20260725.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260725.png",
+        "inputId": "Team export water_20260725.png"
+      },
+      {
+        "date": "2026-08-18",
+        "image": "/data/tonle-sap-2026/water_20260818.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260818.png",
+        "inputId": "Team export water_20260818.png"
+      },
+      {
+        "date": "2026-08-30",
+        "image": "/data/tonle-sap-2026/water_20260830.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260830.png",
+        "inputId": "Team export water_20260830.png"
+      },
+      {
+        "date": "2026-09-11",
+        "image": "/data/tonle-sap-2026/water_20260911.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260911.png",
+        "inputId": "Team export water_20260911.png"
+      },
+      {
+        "date": "2026-09-23",
+        "image": "/data/tonle-sap-2026/water_20260923.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20260923.png",
+        "inputId": "Team export water_20260923.png"
+      },
+      {
+        "date": "2026-10-05",
+        "image": "/data/tonle-sap-2026/water_20261005.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20261005.png",
+        "inputId": "Team export water_20261005.png"
+      },
+      {
+        "date": "2026-10-17",
+        "image": "/data/tonle-sap-2026/water_20261017.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20261017.png",
+        "inputId": "Team export water_20261017.png"
+      },
+      {
+        "date": "2026-10-29",
+        "image": "/data/tonle-sap-2026/water_20261029.png",
+        "radarImage": "/data/tonle-sap-2026/sar_20261029.png",
+        "inputId": "Team export water_20261029.png"
+      }
+    ],
+    "layers": [
+      {
+        "id": "frequency",
+        "label": "Water-class frequency",
+        "description": "Fraction across the 11 supplied dates, not a continuous flood-duration record.",
+        "image": "/data/tonle-sap-2026/inundation_frequency.png",
+        "legend": [
+          {
+            "label": "Low frequency",
+            "color": "#bae6fd"
+          },
+          {
+            "label": "High frequency",
+            "color": "#172554"
+          }
+        ]
+      },
+      {
+        "id": "water_class",
+        "label": "Permanent / seasonal classes",
+        "description": "Team season-wide water categories. Permanent means within the supplied sample only.",
+        "image": "/data/tonle-sap-2026/water_class.png",
+        "legend": [
+          {
+            "label": "Team class: seasonal",
+            "color": "#7dd3fc"
+          },
+          {
+            "label": "Team class: permanent",
+            "color": "#1e3a8a"
+          }
+        ]
+      },
+      {
+        "id": "change",
+        "label": "First-to-last water change",
+        "description": "Team classification change between 19 June and 29 October only; not change for any selected intermediate pair.",
+        "image": "/data/tonle-sap-2026/water_change.png",
+        "legend": [
+          {
+            "label": "Team class: water gained",
+            "color": "#2563eb"
+          },
+          {
+            "label": "Team class: water lost",
+            "color": "#dc2626"
+          }
+        ]
+      }
+    ],
+    "series": [
+      {
+        "date": "2026-06-19",
+        "open_water": 3048.2,
+        "flooded_veg": 146.2,
+        "total": 3194.4
+      },
+      {
+        "date": "2026-07-01",
+        "open_water": 2998.1,
+        "flooded_veg": 141.4,
+        "total": 3139.5
+      },
+      {
+        "date": "2026-07-13",
+        "open_water": 3095.2,
+        "flooded_veg": 123.8,
+        "total": 3219.0
+      },
+      {
+        "date": "2026-07-25",
+        "open_water": 3151.0,
+        "flooded_veg": 187.1,
+        "total": 3338.1
+      },
+      {
+        "date": "2026-08-18",
+        "open_water": 4010.1,
+        "flooded_veg": 361.9,
+        "total": 4372.0
+      },
+      {
+        "date": "2026-08-30",
+        "open_water": 4431.4,
+        "flooded_veg": 428.8,
+        "total": 4860.2
+      },
+      {
+        "date": "2026-09-11",
+        "open_water": 5103.9,
+        "flooded_veg": 765.4,
+        "total": 5869.3
+      },
+      {
+        "date": "2026-09-23",
+        "open_water": 7824.5,
+        "flooded_veg": 875.8,
+        "total": 8700.3
+      },
+      {
+        "date": "2026-10-05",
+        "open_water": 9514.0,
+        "flooded_veg": 489.3,
+        "total": 10003.3
+      },
+      {
+        "date": "2026-10-17",
+        "open_water": 8631.7,
+        "flooded_veg": 516.7,
+        "total": 9148.4
+      },
+      {
+        "date": "2026-10-29",
+        "open_water": 7129.2,
+        "flooded_veg": 219.4,
+        "total": 7348.6
+      }
+    ]
+  }
+}
