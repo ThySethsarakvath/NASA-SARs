@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "id": "synthetic-tonle-sap",
+  "title": "Tonle Sap study window",
+  "location": "Cambodia · illustrative location",
+  "description": "A schematic study window for exploring the interface while the data team prepares real observations.",
+  "dataKind": "synthetic-demo",
+  "interpretation": "radar-response-change",
+  "reviewStatus": "unreviewed",
+  "instrument": "None — synthetic development graphics",
+  "product": "Schematic PNG display fixture",
+  "measurement": "Illustrative color categories",
+  "units": "Not a scientific measurement",
+  "method": "Deterministic geometric shapes generated for interface testing. No SAR processing, detection, or environmental analysis has been performed.",
+  "bounds": [
+    104,
+    12.55,
+    104.5,
+    12.95
+  ],
+  "coordinates": [
+    [
+      104,
+      12.95
+    ],
+    [
+      104.5,
+      12.95
+    ],
+    [
+      104.5,
+      12.55
+    ],
+    [
+      104,
+      12.55
+    ]
+  ],
+  "coverage": {
+    "type": "Feature",
+    "properties": {
+      "meaning": "Synthetic display footprint, not validated observation coverage"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            104,
+            12.95
+          ],
+          [
+            104.5,
+            12.95
+          ],
+          [
+            104.5,
+            12.55
+          ],
+          [
+            104,
+            12.55
+          ],
+          [
+            104,
+            12.95
+          ]
+        ]
+      ]
+    }
+  },
+  "before": {
+    "label": "Example frame A",
+    "date": "2026-10-01T00:00:00Z",
+    "image": "/data/synthetic-tonle-sap/before.png",
+    "inputId": "synthetic-frame-a"
+  },
+  "after": {
+    "label": "Example frame B",
+    "date": "2026-10-13T00:00:00Z",
+    "image": "/data/synthetic-tonle-sap/after.png",
+    "inputId": "synthetic-frame-b"
+  },
+  "change": {
+    "image": "/data/synthetic-tonle-sap/change.png",
+    "label": "Schematic added shape — not detected inundation"
+  },
+  "legend": [
+    {
+      "label": "Example water",
+      "color": "#258a9e"
+    },
+    {
+      "label": "Example land",
+      "color": "#526951"
+    }
+  ],
+  "observed": "Two schematic views illustrate how a prepared observation pair will appear. Shapes and differences were deliberately drawn for this development example.",
+  "explanation": "Use the divider or Before and After controls to inspect the pair. The brighter example overlay is a drawn shape, not a detected flood or a radar-derived measurement.",
+  "limitations": [
+    "No real NISAR acquisitions are included.",
+    "Dates and viewpoints are illustrative; this is not a confirmed flood case.",
+    "Seasonal inundation and damaging flooding require independent contextual evidence."
+  ],
+  "sources": [
+    {
+      "title": "NISAR Data User Guide — background reference",
+      "url": "https://nisar-docs.asf.alaska.edu/"
+    },
+    {
+      "title": "Dancing with the SARs — official challenge",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/"
+    }
+  ],
+  "story": [
+    {
+      "title": "Start with a place.",
+      "body": "This illustrative window is positioned near Tonle Sap. Its rectangle demonstrates how actual observation coverage will be displayed. The study area is not finalized.",
+      "center": [
+        104.25,
+        12.75
+      ],
+      "zoom": 9.5,
+      "view": "before"
+    },
+    {
+      "title": "Look across two moments.",
+      "body": "Slide between these schematic frames to try the comparison. Real observations must use compatible measurements, geometry, and display settings before differences can be interpreted.",
+      "center": [
+        104.24,
+        12.75
+      ],
+      "zoom": 10,
+      "view": "compare"
+    },
+    {
+      "title": "Leave room for uncertainty.",
+      "body": "A difference starts an investigation. Supporting evidence is needed to distinguish seasonal water patterns from flooding. This development case makes no environmental finding.",
+      "center": [
+        104.31,
+        12.72
+      ],
+      "zoom": 10.3,
+      "view": "after"
+    }
+  ]
+}

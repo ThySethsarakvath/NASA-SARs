@@ -1,0 +1,13 @@
+:root {
+  color-scheme: dark;
+  --bg: #08131b;
+  --panel: #101d27;
+  --panel-raised: #152530;
+  --text: #edf5f8;
+  --muted: #a8bac6;
+  --subtle: #7c96a5;
+  --cyan: #46d4e8;
+  --amber: #f1bb67;
+  --line: rgb(167 194 210 / 12%);
+  --serif: Georgia, 'Times New Roman', serif;
+}

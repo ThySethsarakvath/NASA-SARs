@@ -1,0 +1,11 @@
+{
+  "cases": [
+    {
+      "id": "synthetic-tonle-sap",
+      "title": "Tonle Sap study window",
+      "location": "Cambodia · illustrative location",
+      "manifest": "/data/synthetic-tonle-sap/case.json",
+      "dataKind": "synthetic-demo"
+    }
+  ]
+}
