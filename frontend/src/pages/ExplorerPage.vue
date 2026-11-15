@@ -7,6 +7,7 @@ import ComparisonControls from '../components/ComparisonControls.vue'
 import { useExplorer } from '../composables/useExplorer'
 import { usePreparedCollection } from '../composables/usePreparedCollection'
 import PreparedDataControls from '../components/PreparedDataControls.vue'
+import { agricultureUrl } from '../data/site'
 
 const MapWorkspace = defineAsyncComponent(() => import('../components/MapWorkspace.vue'))
 const props = withDefaults(defineProps<{ arriving?: boolean; activated?: boolean }>(), { arriving: false, activated: true })
@@ -33,6 +34,7 @@ function selectCase(id: string) { selectedId.value = id; focusCase() }
         <button class="nav-link active" @click="storyIndex = null; introVisible = false">Explore</button>
         <button class="nav-link" :disabled="!activeCase?.story.length" @click="startStory">Guided story</button>
         <button class="nav-link" @click="sourcesOpen = true">Sources<ArrowUpRight :size="13" /></button>
+        <a class="nav-link" :href="agricultureUrl">Agriculture</a>
       </nav>
       <button class="share-button" @click="share"><Link :size="15" /><span>{{ shareStatus || 'Share view' }}</span></button>
     </header>

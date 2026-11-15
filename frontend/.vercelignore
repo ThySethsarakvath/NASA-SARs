@@ -1,0 +1,10 @@
+.git
+.openai
+.tools
+node_modules
+dist
+output
+playwright-report
+test-results
+.env.local
+.env.*.local

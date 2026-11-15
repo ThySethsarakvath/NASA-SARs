@@ -26,7 +26,7 @@ The map prepares behind this presentation. A six-second readiness deadline preve
 
 Landing source: `src/pages/LandingPage.vue`; explorer source: `src/pages/ExplorerPage.vue`; entry selection: `src/App.vue`. The five user-supplied team profiles and photo credits live in `src/data/site.ts`. Original team portraits are preserved; CSS focus/scale values frame each person.
 
-Five real Cambodia photographs are used on the homepage, with [author, source, license and checksum records](public/images/CREDITS.md). Themes use Prey Lang forest, rice fields near Siem Reap, and Phnom Penh sky/cityscape. Credits are in the footer; older images retain their attribution in the source record. These photos are separate from the synthetic scientific fixture. Forests, climate and atmosphere are planned analytical themes.
+Five real Cambodia photographs are used on the homepage, with [author, source, license and checksum records](public/images/CREDITS.md). Themes use Prey Lang forest, rice fields near Siem Reap, and Phnom Penh sky/cityscape. Credits are in the footer; older images retain their attribution in the source record. These photos are separate from the synthetic scientific fixture. Agriculture now has its own live API explorer; forests and atmosphere remain planned analytical themes.
 
 ## Run locally on this Windows machine
 
@@ -36,6 +36,8 @@ cd D:\NASA\SARs\frontend
 ```
 
 Open the localhost URL printed by Vite (normally http://127.0.0.1:5173). Stop with Ctrl+C. The project-local Node 24.22.1 runtime under ignored `.tools/node` avoids changing the existing global Node 18. The helper prefers `NASA_NODE`, then that portable runtime, then another supported installed runtime. `.tools` is local tooling, not part of the source deliverable.
+
+For teammates on the same LAN, use `& .\scripts\run.ps1 dev-lan` or double-click `START_FRONTEND_LAN.cmd`. Stop any existing port-5173 server first. This opt-in mode listens on all interfaces; share the `Network` URL printed by Vite. Other devices cannot use your `127.0.0.1` address. Keep the server running, allow inbound Node/TCP 5173 on the intended Windows Firewall network if needed, and ensure the Wi-Fi permits communication between clients. Your LAN IP may change when reconnecting. The normal `dev` launcher remains local-only; LAN sharing does not publish a public website.
 
 Alternatively, double-click `START_FRONTEND.cmd` and leave that terminal open. It runs the same helper in a user-owned terminal, independent of a Codex preview session. The batch launcher was successfully executed in a terminal and served both home and explorer with HTTP 200. Dev startup uses port 5173 with `--strictPort` so a second launch reports a port conflict instead of silently moving to another URL. “127.0.0.1 refused to connect” means nothing is accepting that local connection; it is not an HTTP route error. Check that the server is still running, then refresh `http://127.0.0.1:5173/?page=explore`.
 
@@ -83,6 +85,16 @@ See [DATA_HANDOFF.md](DATA_HANDOFF.md), [types](src/types.ts), and the [validato
 
 `useExplorer.ts` owns state and requests, `MapWorkspace.vue` owns map lifecycle, and `contract.ts` validates metadata. The data team owns acquisition, processing, alignment, masks, legends, interpretation and validation. No backend, database, authentication, live alerts, arbitrary acquisition search or later-theme analysis is implemented. Date selection is limited to the 11 supplied exports.
 
-Independent hackathon project; no NASA endorsement implied. Retain OpenFreeMap/OpenMapTiles/OpenStreetMap attribution. Software licensing, real-data rights, eligibility and public hosting remain pending. This task did not deploy the site.
+Independent hackathon project; no NASA endorsement implied. Retain OpenFreeMap/OpenMapTiles/OpenStreetMap attribution. Software licensing, real-data rights, eligibility and scientific validation remain under team review. The user authorized public deployment on November 15; see [deployment](DEPLOYMENT.md) for the live URL, source snapshot and operational limits.
 
 Project records: [architecture](../../docs/ARCHITECTURE.md), [development](../../docs/DEVELOPMENT.md), [decisions](../../docs/DESIGN_DECISIONS.md), [evidence](../../docs/EVIDENCE_AND_LIMITATIONS.md).
+
+## Agriculture explorer
+
+`/?page=agriculture` opens the live, team-provided six-province Agriculture Explorer. Landing hero/card and flood navigation link to it. Province map, pure/mixed cropland figures, radar-change comparison, rainfall and NDVI/EVI charts have explicit dates, sources, null/empty/error states and accessible tables. The historical partial vegetation sample is not contemporary crop-health evidence. Forecast and raw TIFF overlays are not displayed. Existing flood cases/globe behavior remain independent.
+
+`VITE_API_BASE_URL` defaults to the user-supplied Railway endpoint. Copy `.env.example` to ignored `.env.local` to override; restart development or rebuild production after changes. Never include credentials in Vite variables. [AGRICULTURE_API.md](AGRICULTURE_API.md) owns the API contract, architecture and current source limitations.
+
+## Published prototype
+
+Public site: https://sarwatch-cambodia.vercel.app/ (DF5 Vercel Hobby). Flood and agriculture open at `/?page=explore` and `/?page=agriculture`. The previous Sites release is private at the user's request. Forests and atmosphere are explicitly marked **Upcoming**. [DEPLOYMENT.md](DEPLOYMENT.md) owns hosting status, configuration, update procedures and verification limits. Agriculture retains the existing Railway API dependency.

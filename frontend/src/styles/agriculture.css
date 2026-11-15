@@ -1,0 +1,110 @@
+.agriculture { --ag-green: #a5ddca; --ag-bg: #091b20; --ag-panel: #10262b; --ag-muted: #a8bdbb; color: #edf4ec; background: var(--ag-bg); min-height: 100vh; font-size: 13px; }
+.agriculture a { text-decoration: none; }
+.ag-header { min-height: 86px; padding: 20px max(28px, calc((100vw - 1360px)/2)); display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid #264046; }
+.ag-brand { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 650; letter-spacing: 2px; }
+.ag-brand > span { width: 43px; height: 43px; border: 1px solid #416358; border-radius: 50%; display: grid; place-items: center; color: var(--ag-green); }
+.ag-brand small { display: block; font-size: 8px; letter-spacing: 1.8px; color: var(--ag-muted); margin-top: 5px; }
+.ag-header nav { display: flex; gap: 25px; }
+.ag-header nav a { display: flex; gap: 8px; align-items: center; color: var(--ag-muted); padding: 9px 0; }
+.ag-header a:hover, .ag-evidence a:hover { color: var(--ag-green); }
+.ag-main { max-width: 1416px; padding: 0 28px; margin: auto; outline: none; }
+.ag-intro { display: flex; justify-content: space-between; align-items: end; gap: 32px; padding: 55px 0 30px; }
+.ag-eyebrow { font-size: 9px; letter-spacing: 1.7px; font-weight: 600; color: var(--ag-green); line-height: 1.6; }
+.ag-intro h1 { font-size: clamp(35px, 3.7vw, 54px); font-weight: 450; letter-spacing: -1.8px; line-height: 1.1; margin: 16px 0; }
+.agriculture em { font-family: var(--serif); color: var(--ag-green); font-weight: 400; }
+.ag-intro > div > p:last-child { color: var(--ag-muted); line-height: 1.8; max-width: 560px; }
+.ag-intro-meta { text-align: right; flex-shrink: 0; }
+.ag-tag { display: inline-flex; gap: 8px; align-items: center; color: #efd2a0; font-size: 9px; letter-spacing: 1px; }
+.ag-tag > span { width: 5px; height: 5px; background: #e7be7e; border-radius: 50%; }
+.ag-intro-meta p { margin: 12px 0 18px; color: var(--ag-muted); }
+.ag-button { background: #19373a; color: var(--ag-green); border: 1px solid #335451; border-radius: 5px; padding: 10px 13px; font-size: 11px; }
+.ag-button:hover { background: #244848; }
+.ag-disclaimer { display: flex; gap: 11px; padding: 15px 18px; background: #203030; border: 1px solid #3f4b40; color: #d3d6bc; border-radius: 6px; font-size: 11px; line-height: 1.7; margin-bottom: 26px; }
+.ag-disclaimer svg { flex-shrink: 0; margin-top: 1px; }
+.ag-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 18px; margin-bottom: 20px; }
+.ag-select-label { display: flex; flex-direction: column; gap: 8px; color: var(--ag-muted); font-size: 10px; }
+.ag-select-label select { background: #122d32; color: #edf4ec; border: 1px solid #3a5a58; border-radius: 5px; padding: 11px 35px 11px 13px; min-width: 225px; font-size: 13px; }
+.ag-segment { display: inline-flex; padding: 4px; border: 1px solid #315052; border-radius: 5px; gap: 3px; align-items: center; }
+.ag-segment button { background: transparent; color: var(--ag-muted); padding: 8px 10px; font-size: 10px; border-radius: 3px; gap: 6px; white-space: nowrap; }
+.ag-segment button[aria-pressed="true"] { background: #34534c; color: #dbf2df; }
+.ag-period { margin-left: auto; color: var(--ag-muted); display: flex; align-items: center; gap: 8px; padding-bottom: 13px; font-size: 11px; }
+.ag-overview-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; }
+.ag-map-panel, .ag-province-panel, .ag-chart-panel, .ag-ranking { background: var(--ag-panel); border: 1px solid #284349; border-radius: 8px; min-width: 0; }
+.ag-panel-heading { display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+.ag-panel-heading h2 { font-size: 17px; font-weight: 500; letter-spacing: -.3px; line-height: 1.45; margin-top: 6px; }
+.ag-map-panel > .ag-panel-heading { padding: 21px; flex-wrap: wrap; }
+.ag-map-frame { position: relative; height: 435px; border-top: 1px solid #284349; border-bottom: 1px solid #284349; }
+.ag-map-frame > .ag-map-canvas { position: absolute; inset: 0; }
+.ag-map-label { position: absolute; top: 18px; left: 18px; pointer-events: none; display: flex; gap: 7px; font-size: 8px; letter-spacing: 1px; color: #d1e4d8; background: #0a1e22d9; padding: 9px; border-radius: 4px; }
+.ag-map-label small { display: block; font-size: 8px; color: var(--ag-muted); letter-spacing: 0; margin-top: 5px; }
+.ag-map-fit { position: absolute; right: 11px; top: 82px; width: 30px; height: 30px; border-radius: 4px; color: #263c3d; background: #f3f7ed; }
+.ag-map-legend { position: absolute; left: 18px; bottom: 18px; background: #091b20ed; padding: 13px; border: 1px solid #39524e; border-radius: 5px; pointer-events: none; max-width: calc(100% - 36px); font-size: 9px; line-height: 1.6; }
+.ag-map-legend div { height: 5px; width: 180px; max-width: 100%; margin: 8px 0; background: linear-gradient(90deg,#204d47 0%,#65b5a0 20%,#f3c879 50%,#dc845d 100%); }
+.ag-map-legend div.is-rainfall { background: linear-gradient(90deg,#c18055,#d0d5bb,#5dafa8); }
+.ag-map-caption { color: var(--ag-muted); padding: 15px 21px; font-size: 10px; line-height: 1.8; }
+.ag-map-error { position: absolute; left: 16px; right: 50px; top: 70px; padding: 15px; background: #253b36; font-size: 12px; line-height: 1.7; }
+.ag-province-panel { padding: 25px; }
+.ag-province-panel h2 { font-size: 24px; line-height: 1.3; font-weight: 500; margin: 11px 0; letter-spacing: -.5px; }
+.ag-class-label { color: var(--ag-muted); font-size: 10px; }
+.ag-main-stat { border-bottom: 1px solid #315052; margin: 22px 0 3px; padding-bottom: 23px; }
+.ag-main-stat > span, .ag-main-stat p { font-size: 10px; color: var(--ag-muted); }
+.ag-main-stat strong { display: block; font-size: 57px; font-weight: 400; color: var(--ag-green); letter-spacing: -2px; line-height: 1.4; overflow-wrap: anywhere; }
+.ag-main-stat strong small { font-size: 24px; margin-left: 4px; }
+.ag-stat-list { margin: 0; }
+.ag-stat-list > div { padding: 15px 0; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 1px solid #284349; }
+.ag-stat-list dt { color: var(--ag-muted); font-size: 10px; }
+.ag-stat-list dd { margin: 0; font-size: 14px; text-align: right; }
+.ag-stat-list small { color: var(--ag-muted); font-size: 10px; }
+.ag-coverage { margin: 22px 0 15px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 9px; font-size: 10px; color: var(--ag-muted); }
+.ag-coverage strong { color: var(--ag-green); font-weight: 500; }
+.ag-coverage-track { flex-basis: 100%; height: 4px; background: #29433f; overflow: hidden; }
+.ag-coverage-track > span { display: block; height: 100%; background: var(--ag-green); }
+.ag-method-note { color: var(--ag-muted); font-size: 10px; line-height: 1.8; margin-top: 10px; }
+.ag-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0; align-items: start; }
+.ag-chart-panel { padding: 24px; }
+.ag-chart-panel .ag-panel-heading > svg { color: var(--ag-green); }
+.ag-chart-description { color: var(--ag-muted); font-size: 11px; line-height: 1.8; margin: 14px 0; }
+.ag-chart svg { width: 100%; overflow: visible; margin-top: 12px; }
+.ag-chart svg text { font-size: 11px; fill: #acc3be; font-family: inherit; }
+.ag-chart-key { display: flex; flex-wrap: wrap; gap: 16px; color: var(--ag-green); font-size: 10px; margin: 8px 0 19px; }
+.ag-chart-key > span + span { color: #dcba7a; }
+.ag-values { margin-top: 14px; font-size: 10px; }
+.agriculture summary { cursor: pointer; color: var(--ag-green); padding: 10px 0; line-height: 1.6; }
+.agriculture summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.ag-source-line, .ag-sample-note { color: var(--ag-muted); font-size: 10px; line-height: 1.8; margin-top: 15px; overflow-wrap: anywhere; }
+.ag-sample-note { color: #dfcd9c; padding: 10px 12px; background: #28382f; border-radius: 4px; }
+.ag-table-scroll { overflow-x: auto; max-height: 330px; }
+.agriculture table { width: 100%; border-collapse: collapse; text-align: left; font-size: 11px; font-variant-numeric: tabular-nums; }
+.agriculture caption { text-align: left; padding: 14px 0; color: var(--ag-muted); font-size: 10px; line-height: 1.7; }
+.agriculture th, .agriculture td { padding: 13px 16px; border-bottom: 1px solid #284349; white-space: nowrap; }
+.agriculture thead th { color: var(--ag-muted); font-weight: 500; background: #112b2f; }
+.agriculture tbody th { font-weight: 450; }
+.agriculture td { text-align: right; }
+.agriculture table button { color: #edf4ec; background: transparent; padding: 6px 0; text-align: left; }
+.agriculture table button:hover { color: var(--ag-green); text-decoration: underline; }
+.agriculture tr.is-selected { background: #26463f; }
+.ag-ranking { padding: 24px; }
+.ag-ranking .ag-panel-heading > span { color: var(--ag-muted); font-size: 10px; }
+.ag-evidence { display: grid; grid-template-columns: 1fr 1.25fr; gap: 70px; border-top: 1px solid #315052; margin-top: 40px; padding: 40px 0; }
+.ag-evidence h2 { font-family: var(--serif); font-size: 29px; font-weight: 400; margin: 14px 0; }
+.ag-evidence p { color: var(--ag-muted); font-size: 11px; line-height: 1.9; margin: 10px 0; }
+.ag-evidence a { display: inline-flex; gap: 8px; align-items: center; color: var(--ag-green); margin-top: 15px; font-size: 11px; }
+.ag-evidence details { border-bottom: 1px solid #315052; padding-bottom: 12px; margin-bottom: 8px; }
+.ag-backend-status > div { display: flex; justify-content: space-between; gap: 16px; margin: 11px 0; font-size: 10px; overflow-wrap: anywhere; }
+.ag-backend-status dd { margin: 0; text-align: right; color: var(--ag-muted); }
+.ag-loading, .ag-empty, .ag-error { padding: 35px 24px; color: var(--ag-muted); line-height: 1.9; font-size: 12px; }
+.ag-error { background: var(--ag-panel); border: 1px solid #61543b; border-radius: 7px; margin: 24px 0; }
+.ag-error h2 { font-size: 19px; color: #edddbd; }
+.ag-error button, .ag-empty button { margin-top: 15px; }
+.ag-error > a { margin-left: 20px; text-decoration: underline; }
+.ag-footer { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid #264046; padding: 24px max(28px, calc((100vw - 1360px)/2)); color: var(--ag-muted); font-size: 9px; }
+.ag-footer > span { letter-spacing: 1.5px; }
+.ag-spin { animation: ag-spin 1.5s linear infinite; }
+@keyframes ag-spin { to { transform: rotate(360deg); } }
+@media (max-width: 1050px) { .ag-overview-grid { grid-template-columns: minmax(0, 1fr) 260px; } .ag-province-panel { padding: 20px; } .ag-period { margin-left: 0; flex-basis: 100%; padding: 0; } .ag-chart-grid { grid-template-columns: 1fr; } }
+@media (max-width: 740px) {
+  .ag-header { padding: 16px 20px; align-items: start; gap: 12px; flex-wrap: wrap; } .ag-header nav { gap: 19px; width: 100%; border-top: 1px solid #264046; padding-top: 8px; } .ag-header nav a { font-size: 11px; }
+  .ag-main { padding: 0 18px; } .ag-intro { padding-top: 32px; flex-direction: column; align-items: start; gap: 20px; } .ag-intro-meta { text-align: left; } .ag-intro h1 { letter-spacing: -1px; } .ag-intro-meta p { margin: 10px 0; }
+  .ag-overview-grid, .ag-evidence { grid-template-columns: 1fr; } .ag-map-frame { height: 360px; } .ag-map-panel > .ag-panel-heading { padding: 19px; } .ag-province-panel { padding: 24px; } .ag-main-stat { margin-top: 15px; } .ag-main-stat strong { font-size: 48px; }
+  .ag-chart-panel, .ag-ranking { padding: 19px; } .ag-panel-heading { flex-wrap: wrap; gap: 10px; } .ag-chart-panel .ag-panel-heading { align-items: start; } .ag-evidence { gap: 20px; } .agriculture th, .agriculture td { padding: 12px; } .ag-table-scroll { max-width: 100%; } .ag-backend-status > div { flex-wrap: wrap; gap: 5px; } .ag-backend-status dd { text-align: left; }
+}

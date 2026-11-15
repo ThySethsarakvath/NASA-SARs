@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('dev', 'build', 'preview', 'typecheck', 'lint', 'test', 'e2e', 'fixtures')]
+    [ValidateSet('dev', 'dev-lan', 'build', 'preview', 'typecheck', 'lint', 'test', 'e2e', 'fixtures')]
     [string]$Task = 'dev'
 )
 $ErrorActionPreference = 'Stop'
@@ -27,6 +27,7 @@ Push-Location -LiteralPath $projectRoot
 try {
     switch ($Task) {
         'dev' { & $selectedNode 'node_modules/vite/bin/vite.js' '--host' '127.0.0.1' '--port' '5173' '--strictPort' }
+        'dev-lan' { & $selectedNode 'node_modules/vite/bin/vite.js' '--host' '0.0.0.0' '--port' '5173' '--strictPort' }
         'preview' { & $selectedNode 'node_modules/vite/bin/vite.js' 'preview' '--host' '127.0.0.1' }
         'typecheck' { & $selectedNode 'node_modules/vue-tsc/bin/vue-tsc.js' '-b' }
         'build' {

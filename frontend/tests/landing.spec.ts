@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
+import { summaryFixture, geometryFixture, vegetationFixture, rainfallFixture } from './fixtures/agriculture'
 
 test('introduces the vision without fetching scientific cases or the map renderer', async ({ page }) => {
   const requests: string[] = []
@@ -8,7 +9,8 @@ test('introduces the vision without fetching scientific cases or the map rendere
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Our home.Our planet.A closer look.')
-  await expect(page.getByText('Planned exploration', { exact: true })).toHaveCount(3)
+  await expect(page.getByText('Upcoming', { exact: true })).toHaveCount(2)
+  await expect(page.getByRole('link', { name: 'Explore agriculture and croplands', exact: true })).toHaveAttribute('href', '/?page=agriculture')
   await expect(page.getByText('PROFILE PLACEHOLDER', { exact: true })).toHaveCount(0)
   for (const name of ['Sethasarakvath Thy', 'Sun Sovisal', 'Sokha Ordom', 'Chheng Rayuth', 'Tat Chansereyvong']) {
     await expect(page.getByRole('heading', { name, exact: true })).toBeVisible()
@@ -26,8 +28,64 @@ test('introduces the vision without fetching scientific cases or the map rendere
   await expect(page.getByRole('link', { name: 'CC BY 2.5', exact: true })).toHaveCount(1)
   const themeImages = await page.locator('.landing-theme-image img').evaluateAll((images) => images.map((image) => image.getAttribute('src')))
   expect(new Set(themeImages).size).toBe(4)
-  expect(requests.filter((url) => /\/data\/index\.json|MapWorkspace\.vue|maplibre-gl-worker/.test(url))).toEqual([])
+  expect(requests.filter((url) => /\/data\/index\.json|MapWorkspace\.vue|maplibre-gl-worker|\/api\/agriculture\//.test(url))).toEqual([])
   expect(errors).toEqual([])
+})
+
+test('opens agriculture from its whole card, changes province and retains honest chart periods', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => errors.push(error.message))
+  await page.route('**/api/agriculture/**', async (route) => {
+    const url = new URL(route.request().url()), province = url.searchParams.get('province') ?? ''
+    const body = url.pathname.endsWith('/summary') ? summaryFixture()
+      : url.pathname.endsWith('.geojson') ? geometryFixture()
+        : url.pathname.endsWith('/vegetation') ? province === 'Battambang' ? [] : vegetationFixture(province)
+          : url.pathname.endsWith('/rainfall') ? rainfallFixture(province) : []
+    await route.fulfill({ json: body })
+  })
+  await page.goto('/')
+  await page.getByRole('link', { name: 'Explore agriculture and croplands', exact: true }).locator('img').click()
+  await expect(page).toHaveURL(/page=agriculture/)
+  await expect(page.locator('.ag-province-panel')).toContainText('Siem Reap')
+  await expect(page.locator('.ag-sample-note')).toContainText('2021')
+  await expect(page.locator('.ag-period')).toContainText('2026')
+  await page.getByRole('button', { name: 'EVI', exact: true }).click()
+  await expect(page.getByRole('img', { name: /^EVI\./ })).toBeVisible()
+  await page.getByLabel('Study province', { exact: true }).selectOption('Battambang')
+  await expect(page).toHaveURL(/province=Battambang/)
+  await expect(page.getByText('No vegetation records are available for Battambang. Radar and rainfall remain available.')).toBeVisible()
+  await page.getByRole('button', { name: 'Mixed cropland', exact: true }).click()
+  await expect(page.locator('.ag-main-stat')).toContainText('10%')
+  await page.getByRole('button', { name: 'Rainfall', exact: true }).click()
+  await expect(page.locator('.ag-map-legend')).toContainText('Rainfall anomaly')
+  for (const width of [1440, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  }
+  await page.getByRole('link', { name: 'Home', exact: true }).click()
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Our home.')
+  await page.goBack()
+  await expect(page.locator('.ag-province-panel')).toContainText('Battambang')
+  expect(errors).toEqual([])
+})
+
+test('recovers an unavailable agriculture summary and preserves keyboard evidence without WebGL', async ({ page }) => {
+  await page.addInitScript(() => { HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext })
+  let unavailable = true
+  await page.route('**/api/agriculture/**', async (route) => {
+    const path = new URL(route.request().url()).pathname
+    if (path.endsWith('/summary') && unavailable) return route.fulfill({ status: 503, json: {} })
+    await route.fulfill({ json: path.endsWith('/summary') ? summaryFixture() : path.endsWith('.geojson') ? geometryFixture() : [] })
+  })
+  await page.goto('/?page=agriculture')
+  await expect(page.getByRole('alert')).toContainText('not available')
+  unavailable = false
+  await page.getByRole('button', { name: 'Try again', exact: true }).click()
+  await expect(page.locator('.ag-province-panel')).toContainText('Siem Reap')
+  await expect(page.locator('.ag-map-error')).toContainText('Interactive maps are unavailable')
+  await page.getByLabel('Study province', { exact: true }).selectOption('Battambang')
+  await expect(page.locator('.ag-province-panel')).toContainText('Battambang')
+  await expect(page.locator('.ag-ranking')).toContainText('Battambang')
 })
 
 test('opens the existing prototype, returns home, and preserves old case links', async ({ page }) => {
@@ -84,7 +142,7 @@ test('renders real local photographs and responsive layouts without overflow', a
 
 test('makes the whole theme cards accessible with honest planned-theme details', async ({ page }) => {
   await page.goto('/')
-  const forest = page.getByRole('button', { name: 'Forests & deforestation — planned exploration', exact: true })
+  const forest = page.getByRole('button', { name: 'Forests & deforestation — upcoming', exact: true })
   await forest.locator('img').click()
   const dialog = page.getByRole('dialog', { name: 'Forests & deforestation', exact: true })
   await expect(dialog).toBeVisible()
@@ -92,9 +150,9 @@ test('makes the whole theme cards accessible with honest planned-theme details',
   await page.keyboard.press('Escape')
   await expect(dialog).not.toBeVisible()
   await expect(forest).toBeFocused()
-  await page.getByRole('button', { name: 'Climate & seasons — planned exploration', exact: true }).focus()
+  await page.getByRole('button', { name: 'Atmosphere & air — upcoming', exact: true }).focus()
   await page.keyboard.press('Enter')
-  await expect(page.getByRole('dialog', { name: 'Climate & seasons', exact: true })).toBeVisible()
+  await expect(page.getByRole('dialog', { name: 'Atmosphere & air', exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Got it', exact: true }).click()
   await page.getByRole('link', { name: 'Explore flooding and water prototype', exact: true }).locator('img').click()
   await expect(page).toHaveURL(/page=explore/)

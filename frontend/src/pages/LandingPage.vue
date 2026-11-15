@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { Waves, Trees, CloudSun, Wind, ScanLine, Layers, BookOpen, ShieldCheck, Menu, X, UserRound, Pause, Play, Compass, House, ExternalLink, ChevronUp, SkipForward } from '@lucide/vue'
-import { explorerUrl, photographs, teamMembers } from '../data/site'
+import { Waves, Trees, Sprout, Wind, ScanLine, Layers, BookOpen, ShieldCheck, Menu, X, UserRound, Pause, Play, Compass, House, ExternalLink, ChevronUp, SkipForward } from '@lucide/vue'
+import { explorerUrl, agricultureUrl, photographs, teamMembers } from '../data/site'
 import { CAMBODIA_FLIGHT_MS, GLOBE_EXPANSION_MS } from '../globe/flight'
 import '../styles/landing.css'
 import '../styles/hero-globe.css'
@@ -22,10 +22,10 @@ let sceneTimer: number | undefined, launchTimer: number | undefined, disposed = 
 let heroObserver: IntersectionObserver | undefined
 const navigation = [ { label: 'Our mission', href: '#mission' }, { label: 'Our focus', href: '#themes' }, { label: 'The experience', href: '#experience' }, { label: 'Our team', href: '#team' } ]
 const themes = [
-  { id: '01', title: 'Flooding & water', icon: Waves, image: '/images/tonle-sap-wetlands.jpg', alt: 'Trees surrounded by water in the Tonlé Sap wetlands', text: 'Explore changing water through dated views, local context, and careful interpretation.', status: 'Current focus', active: true },
-  { id: '02', title: 'Forests & deforestation', icon: Trees, image: '/images/prey-lang-forest.jpg', alt: 'Aerial view of the dense Prey Lang forest canopy in Cambodia', text: 'A future view into forest cover and the changes that deserve a closer look.', status: 'Planned exploration', active: false },
-  { id: '03', title: 'Climate & seasons', icon: CloudSun, image: '/images/cambodia-rice-fields.jpg', alt: 'Rice fields and open sky near Siem Reap, Cambodia', text: 'Bring longer-term environmental patterns and seasonal context into the story.', status: 'Planned exploration', active: false },
-  { id: '04', title: 'Atmosphere & air', icon: Wind, image: '/images/phnom-penh-skyline.jpg', alt: 'Sky and urban landscape above Phnom Penh, Cambodia', text: 'Explore atmospheric conditions with dedicated air-quality and atmospheric datasets.', status: 'Planned exploration', active: false },
+  { id: '01', title: 'Flooding & water', icon: Waves, image: '/images/tonle-sap-wetlands.jpg', alt: 'Trees surrounded by water in the Tonlé Sap wetlands', text: 'Explore changing water through dated views, local context, and careful interpretation.', status: 'Current focus', active: true, url: explorerUrl, label: 'Explore flooding and water prototype' },
+  { id: '02', title: 'Forests & deforestation', icon: Trees, image: '/images/prey-lang-forest.jpg', alt: 'Aerial view of the dense Prey Lang forest canopy in Cambodia', text: 'Upcoming: explore forest cover and deforestation. This explorer is not available yet.', status: 'Upcoming', active: false },
+  { id: '03', title: 'Agriculture & croplands', icon: Sprout, image: '/images/cambodia-rice-fields.jpg', alt: 'Rice fields and open sky near Siem Reap, Cambodia', text: 'Follow cropland radar changes, rainfall and vegetation across six Tonlé Sap provinces.', status: 'Explore team data', active: true, url: agricultureUrl, label: 'Explore agriculture and croplands' },
+  { id: '04', title: 'Atmosphere & air', icon: Wind, image: '/images/phnom-penh-skyline.jpg', alt: 'Sky and urban landscape above Phnom Penh, Cambodia', text: 'Upcoming: explore atmospheric conditions and air quality. This explorer is not available yet.', status: 'Upcoming', active: false },
 ]
 type Theme = typeof themes[number]
 const themeDialog = ref<HTMLDialogElement>()
@@ -113,9 +113,10 @@ const steps = [
         <div class="hero-right-gradient" aria-hidden="true" />
         <div class="landing-hero-content landing-container">
           <h1 id="hero-title">Our home.<br />Our planet.<br /><em>A closer look.</em></h1>
-          <p>From the waters of Tonlé Sap to the forests and skies beyond. Making Earth observations easier to explore, understand, and connect to life in Cambodia.</p>
+          <p>From the waters of Tonlé Sap to Cambodia’s croplands, forests and skies. Making Earth observations easier to explore, understand, and connect to life in Cambodia.</p>
           <div class="landing-hero-actions">
             <a :href="explorerUrl" class="landing-button" @click="launchPrototype">{{ entering ? 'Finding Cambodia…' : 'Explore the flood prototype' }}<ScanLine :size="19" /></a>
+            <a :href="agricultureUrl" class="landing-text-link">Explore agriculture<Sprout :size="19" /></a>
           </div>
         </div>
         <div class="hero-globe-slot">
@@ -131,12 +132,12 @@ const steps = [
       </section>
       <section id="mission" class="landing-mission landing-container landing-section" aria-labelledby="mission-title">
         
-        <div class="landing-mission-grid"><h2 id="mission-title">A changing landscape.<br /><span>A shared understanding.</span></h2><div><p class="landing-lead">Environmental change can feel far away. We want to make it feel closer to home.</p><p>Our objective is to turn complex Earth observations into a clear, interactive view of Cambodia. A place to compare, ask questions, and follow the evidence behind what we see.</p><p>We’re starting with flooding, then building toward forests, climate, and the atmosphere. Each new theme needs the right data and a careful review before it becomes an explorer.</p></div></div>
+        <div class="landing-mission-grid"><h2 id="mission-title">A changing landscape.<br /><span>A shared understanding.</span></h2><div><p class="landing-lead">Environmental change can feel far away. We want to make it feel closer to home.</p><p>Our objective is to turn complex Earth observations into a clear, interactive view of Cambodia. A place to compare, ask questions, and follow the evidence behind what we see.</p><p>Explore flooding and agriculture today, with forests and the atmosphere ahead. Each theme brings its own datasets, dates and limits; follow the evidence behind every view.</p></div></div>
         <div class="landing-values"><span><ScanLine :size="17" />Look at the evidence</span><span><BookOpen :size="17" />Make it understandable</span><span><ShieldCheck :size="17" />Be clear about uncertainty</span></div>
       </section>
       <section id="themes" class="landing-themes landing-section" aria-labelledby="themes-title"><div class="landing-container">
-        <div class="landing-section-heading"><h2 id="themes-title">One home.<br /><em>More ways to understand it.</em></h2><p>Our vision spans four environmental themes.<br />One focused first step makes it possible.</p></div>
-        <div class="landing-theme-grid"><component :is="theme.active ? 'a' : 'button'" v-for="theme in themes" :key="theme.id" class="landing-theme-card" :class="{ 'theme-active': theme.active }" :href="theme.active ? explorerUrl : undefined" :type="theme.active ? undefined : 'button'" :aria-label="theme.active ? 'Explore flooding and water prototype' : `${theme.title} — planned exploration`" :aria-haspopup="theme.active ? undefined : 'dialog'" @click="openTheme(theme)"><div class="landing-theme-image"><img :src="theme.image" :alt="theme.alt" width="640" height="420" loading="lazy" decoding="async" /><span class="landing-theme-number">{{ theme.id }}</span><span class="landing-theme-status"><span v-if="theme.active" />{{ theme.status }}</span></div><div class="landing-theme-body"><component :is="theme.icon" :size="23" :stroke-width="1.4" /><h3>{{ theme.title }}</h3><p>{{ theme.text }}</p></div></component></div>
+        <div class="landing-section-heading"><h2 id="themes-title">One home.<br /><em>More ways to understand it.</em></h2><p>Our vision spans four environmental themes.<br />Explore water and croplands. More chapters are ahead.</p></div>
+        <div class="landing-theme-grid"><component :is="theme.active ? 'a' : 'button'" v-for="theme in themes" :key="theme.id" class="landing-theme-card" :class="{ 'theme-active': theme.active }" :href="theme.url" :type="theme.active ? undefined : 'button'" :aria-label="theme.active ? theme.label : `${theme.title} — upcoming`" :aria-haspopup="theme.active ? undefined : 'dialog'" @click="openTheme(theme)"><div class="landing-theme-image"><img :src="theme.image" :alt="theme.alt" width="640" height="420" loading="lazy" decoding="async" /><span class="landing-theme-number">{{ theme.id }}</span><span class="landing-theme-status"><span v-if="theme.active" />{{ theme.status }}</span></div><div class="landing-theme-body"><component :is="theme.icon" :size="23" :stroke-width="1.4" /><h3>{{ theme.title }}</h3><p>{{ theme.text }}</p></div></component></div>
       </div></section>
       <section id="experience" class="landing-experience landing-container landing-section" aria-labelledby="experience-title">
         <div class="landing-section-heading"><h2 id="experience-title">Don’t just see a change.<br /><em>Explore its story.</em></h2></div>
@@ -156,10 +157,10 @@ const steps = [
       <template v-if="selectedTheme">
         <button class="theme-dialog-close" aria-label="Close theme details" @click="closeTheme"><X :size="20" /></button>
         <component :is="selectedTheme.icon" :size="32" :stroke-width="1.4" />
-        <p class="theme-dialog-status">PLANNED EXPLORATION</p>
+        <p class="theme-dialog-status">UPCOMING</p>
         <h2 id="theme-dialog-title" tabindex="-1" autofocus>{{ selectedTheme.title }}</h2>
         <p>{{ selectedTheme.text }}</p>
-        <p>This explorer is not available yet. We’re focusing on flooding first; this theme needs dedicated datasets and reviewed methods before it opens.</p>
+        <p>This explorer is not available yet. We currently explore flooding and agriculture; this upcoming theme needs dedicated datasets and reviewed methods before it opens.</p>
         <button class="landing-button" @click="closeTheme">Got it</button>
       </template>
     </dialog>

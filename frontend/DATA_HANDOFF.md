@@ -83,3 +83,7 @@ Optional `change.legend` identifies the overlay categories. The provided first-t
 - Current source uses WorldPop 2025, WorldCover 2021 class 40, an OSM roads shapefile with unknown snapshot date, and a reported JRC v1.4 recurrence reference ending 2021. Baseline-filtered water is open-water screening, excludes flooded vegetation and does not establish a season-matched anomaly.
 - URL `display=both` requests water on radar. `baseline=rare-water` requests the supplied orange primary layer. Missing layer metadata produces a recoverable selection error; missing image assets produce a display error. Neither becomes a substitute water layer.
 - Exposure figures follow Before/After (After in Compare); season maps show no single-date metrics. Displayed differences are simple differences between team estimates, not newly affected people or confirmed damage.
+
+## Separate agriculture API contract
+
+The user-authorized Agriculture Explorer uses the live teammate API rather than this prepared flood manifest. Its response fields, configuration, source dates, validation and missing metadata are documented in [AGRICULTURE_API.md](AGRICULTURE_API.md). Do not add agriculture responses to a FloodCase or recompute scientific intersections from rendered images. Shared exposure/change analysis requires separately reviewed backend outputs.
