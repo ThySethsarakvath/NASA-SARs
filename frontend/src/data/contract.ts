@@ -1,4 +1,4 @@
-import type { CaseEntry, DataKind, FloodCase, ImageCorners, Interpretation, Position, PreparedCollection, LegendEntry, ViewMode } from '../types'
+import type { CaseEntry, DataKind, FloodCase, ImageCorners, Interpretation, Position, PreparedCollection, ExposureValues, LegendEntry, ViewMode } from '../types'
 
 function object(value: unknown, name: string): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${name} must be an object.`)
@@ -90,7 +90,7 @@ function parseCollection(value: unknown): PreparedCollection {
   const item = object(value, 'collection')
   const observations = array(item.observations, 'observations').map((value) => {
     const o = object(value, 'prepared observation')
-    return { date: calendarDate(o.date, 'prepared date'), image: asset(o.image, 'image'), radarImage: asset(o.radarImage, 'radarImage'), inputId: text(o.inputId, 'inputId') }
+    return { ...(o.unusualImage === undefined ? {} : { unusualImage: asset(o.unusualImage, 'unusualImage') }), date: calendarDate(o.date, 'prepared date'), image: asset(o.image, 'image'), radarImage: asset(o.radarImage, 'radarImage'), inputId: text(o.inputId, 'inputId') }
   })
   if (observations.length < 2 || observations.length > 50 || observations.some((o, i) => i > 0 && o.date <= observations[i - 1]!.date)) throw new Error('Prepared dates must be unique and chronological (2–50 dates).')
   const layers = array(item.layers, 'layers').map((value) => {
@@ -106,7 +106,38 @@ function parseCollection(value: unknown): PreparedCollection {
     return { date, open_water, flooded_veg, total }
   })
   if (series.length !== observations.length) throw new Error('Reported series must match prepared dates.')
-  return { observations, layers, series }
+  const exposure = item.exposure === undefined ? undefined : parseExposure(item.exposure, observations.map((o) => o.date), series)
+  return { observations, layers, series, ...(exposure ? { exposure } : {}) }
+}
+
+function parseExposure(value: unknown, dates: string[], series: PreparedCollection['series']): NonNullable<PreparedCollection['exposure']> {
+  const root = object(value, 'exposure')
+  const nullableNumber = (value: unknown, name: string) => {
+    if (value === null) return null
+    const n = number(value, name)
+    if (n < 0) throw new Error(`${name} cannot be negative.`)
+    return n
+  }
+  const values = (value: unknown): ExposureValues => {
+    const r = object(value, 'exposure values')
+    return { areaKm2: nullableNumber(r.areaKm2, 'areaKm2'), population: nullableNumber(r.population, 'population'), roadKm: nullableNumber(r.roadKm, 'roadKm'), croplandHa: nullableNumber(r.croplandHa, 'croplandHa') }
+  }
+  const records = array(root.records, 'exposure records').map((value) => {
+    const row = object(value, 'exposure record'), date = calendarDate(row.date, 'exposure.date')
+    if (!dates.includes(date)) throw new Error('Exposure date must match a supplied observation.')
+    const classifiedWater = values(row.classifiedWater), baselineFiltered = values(row.baselineFiltered)
+    if (classifiedWater.areaKm2 !== null && Math.abs(classifiedWater.areaKm2 - series.find((r) => r.date === date)!.total) > .15) throw new Error('Exposure area must match the reported classified-water total.')
+    if (baselineFiltered.areaKm2 !== null && classifiedWater.areaKm2 !== null && baselineFiltered.areaKm2 > classifiedWater.areaKm2 + .15) throw new Error('Baseline-filtered area exceeds the reported total.')
+    return { date, classifiedWater, baselineFiltered }
+  })
+  if (records.length > dates.length || records.some((r, i) => i > 0 && r.date <= records[i - 1]!.date)) throw new Error('Exposure records must be unique and chronological.')
+  const meta = object(root.sources, 'exposure sources')
+  const names = (value: unknown) => array(value, 'source filenames').map((v) => text(v, 'source filename'))
+  const nullableText = (value: unknown, name: string) => value === null ? null : text(value, name)
+  const recurrenceBelowPct = nullableNumber(meta.recurrenceBelowPct, 'recurrenceBelowPct')
+  if (recurrenceBelowPct !== null && recurrenceBelowPct > 100) throw new Error('Recurrence threshold must be 0–100 percent.')
+  return { records, sources: { population: names(meta.population), cropland: names(meta.cropland),
+    cropClass: nullableNumber(meta.cropClass, 'cropClass'), roads: nullableText(meta.roads, 'roads'), roadsFilter: nullableText(meta.roadsFilter, 'roadsFilter'), baseline: nullableText(meta.baseline, 'baseline'), recurrenceBelowPct, method: text(meta.method, 'exposure method') } }
 }
 
 export function parseCase(value: unknown): FloodCase {
@@ -125,7 +156,7 @@ export function parseCase(value: unknown): FloodCase {
     if (dataKind === 'team-export' && /^\d{4}-\d{2}-\d{2}$/.test(date)) calendarDate(date, name)
     else if (!/^\d{4}-\d{2}-\d{2}T.*Z$/.test(date) || !Number.isFinite(Date.parse(date))) throw new Error(`${name}.date must be a valid UTC timestamp.`)
     if (new Date(date).toISOString().slice(0, 10) !== date.slice(0, 10)) throw new Error(`${name}.date must be a real calendar date.`)
-    return { label: text(o.label, `${name}.label`), date, image: asset(o.image, `${name}.image`), inputId: text(o.inputId, `${name}.inputId`) }
+    return { ...(o.backgroundImage === undefined ? {} : { backgroundImage: asset(o.backgroundImage, `${name}.backgroundImage`) }), label: text(o.label, `${name}.label`), date, image: asset(o.image, `${name}.image`), inputId: text(o.inputId, `${name}.inputId`) }
   }
   const before = observation(r.before, 'before'), after = observation(r.after, 'after')
   if (Date.parse(before.date) >= Date.parse(after.date)) throw new Error('The after observation must follow the before observation.')

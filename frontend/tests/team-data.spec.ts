@@ -38,7 +38,7 @@ test('offers the imported data and reported figures on mobile with explicit prov
   await page.locator('.prepared-controls summary').click()
   await page.getByRole('button', { name: 'Open evidence panel' }).click()
   await page.getByRole('button', { name: 'Data & method', exact: true }).click()
-  await page.locator('.reported-series summary').click()
+  await page.getByText('Team-reported classified areas (km²)', { exact: true }).click()
   await expect(page.getByRole('table')).toContainText('10,003.3')
   await expect(page.locator('.date-context')).toContainText('exact acquisition times')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -55,9 +55,9 @@ test('reports a missing selected export instead of silently showing another date
   await expect(page.getByRole('button', { name: 'After', exact: true })).toBeDisabled()
 })
 
-test('ships all 25 data rasters with recorded checksums, bounded dimensions and no copied UI code', () => {
+test('ships all 36 data rasters with recorded checksums, bounded dimensions and no copied UI code', () => {
   const record = JSON.parse(readFileSync('public/data/tonle-sap-2026/provenance.json', 'utf8')) as { files: { displayPath: string; displaySha256: string; displayDimensions: number[] }[] }
-  expect(record.files).toHaveLength(25)
+  expect(record.files).toHaveLength(36)
   for (const file of record.files) {
     const image = readFileSync(`public${file.displayPath}`)
     expect(createHash('sha256').update(image).digest('hex')).toBe(file.displaySha256)

@@ -1,7 +1,7 @@
 """Import data only from the teammate archive; never execute its JS/Python/UI.
 
 Requires Pillow. Run from frontend: python scripts/import-webapp-data.py ../../webapp.zip
-The default archive is resolved from the workspace root. Originals stay in the ZIP.
+The default prefers webapp2.zip, then webapp.zip in the workspace root. Originals stay in the ZIP.
 """
 from pathlib import Path, PurePosixPath
 from zipfile import ZipFile
@@ -13,7 +13,7 @@ import sys
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT.parents[1] / 'webapp.zip'
+ARCHIVE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else next((ROOT.parents[1] / name for name in ['webapp2.zip', 'webapp.zip'] if (ROOT.parents[1] / name).exists()), ROOT.parents[1] / 'webapp.zip')
 DEST = ROOT / 'public/data/tonle-sap-2026'
 
 
@@ -78,7 +78,8 @@ def main():
             entry = data['dates'][date]
             observations.append({'date': date, 'image': image(entry['water'], entry['water_bounds']),
                                  'radarImage': image(entry['sar'], entry['sar_bounds']),
-                                 'inputId': 'Team export ' + PurePosixPath(entry['water']).name})
+                                 'inputId': 'Team export ' + PurePosixPath(entry['water']).name,
+                                 **({'unusualImage': image(entry['unusual'], entry['unusual_bounds'])} if entry.get('unusual') else {})})
         water_legend = [{'label': 'Team class: open water', 'color': '#2563eb'},
                         {'label': 'Team class: flooded vegetation', 'color': '#16a34a'}]
         change_legend = [{'label': 'Team class: water gained', 'color': '#2563eb'},
@@ -93,19 +94,35 @@ def main():
         layers = [{'id': id, 'label': label, 'description': description,
                    'image': image(data['layers'][id]['file'], data['layers'][id]['bounds']), 'legend': legend}
                   for id, label, description, legend in definitions]
+        exposure = None
+        if data.get('impact'):
+            meta = data.get('impact_meta') or {}
+            def values(row, prefix):
+                return {key: row.get(prefix + name) for key, name in
+                        [('areaKm2', 'km2'), ('population', 'people'), ('roadKm', 'road_km'), ('croplandHa', 'crop_ha')]}
+            exposure = {
+                'records': [{'date': date, 'classifiedWater': values(data['impact'][date], 'flooded_'),
+                             'baselineFiltered': values(data['impact'][date], 'unusual_')}
+                            for date in dates if date in data['impact']],
+                'sources': {'population': meta.get('population') or [], 'cropland': meta.get('cropland') or [],
+                            'cropClass': meta.get('crop_class'), 'roads': meta.get('roads'), 'roadsFilter': meta.get('roads_filter'),
+                            'baseline': meta.get('baseline'), 'recurrenceBelowPct': meta.get('unusual_below_pct'),
+                            'method': 'Archive README reports intersections with WorldPop population, OSM drivable roads and WorldCover cropland class 40. Baseline-filtered output uses open water where historical JRC recurrence is below the supplied threshold; flooded vegetation is excluded. impact.py, input exposure rasters/vectors, baseline nodata handling and validation evidence were not supplied. This is a screening proxy, not a season-matched anomaly or an operational alert.'},
+            }
         write_json('source-metadata.json', data)
         write_json('provenance.json', {
-            'archive': 'webapp.zip', 'archiveSha256': digest(ARCHIVE.read_bytes()),
+            'archive': ARCHIVE.name, 'archiveSha256': digest(ARCHIVE.read_bytes()),
             'metadataSha256': digest(raw), 'exporterSha256': digest(archive.read('webapp/export_web.py')),
             'status': 'Team-provided derived exports; source products and scientific validation not verified',
             'reportedInstrument': 'NISAR L-band, as stated in the archive README',
             'reportedDistributor': 'ASF, reported by the user on behalf of the data teammate on 2026-11-14; exact catalog records not supplied',
             'missing': ['Original product/granule IDs', 'polarization and calibrated units', 'acquisition timestamps',
-                        'sar_insights.py and threshold configuration', 'valid-data/support masks',
+                        'sar_insights.py and threshold configuration', 'impact.py and exposure/baseline source files', 'valid-data/support masks',
                         'independent validation evidence', 'redistribution terms'],
             'spatialContext': 'Supplied exporter specifies EPSG:3857; geographic bounds copied from data.js. Native GeoTIFFs absent.',
             'displayPreparation': 'PNG only. Nearest-neighbor resize to <=2048 pixels on longest side; no class-area calculations. Radar PNG bytes retained.',
             'files': records,
+            **({'comparedWithArchive': {'name': 'webapp.zip', 'sha256': digest((ROOT.parents[1] / 'webapp.zip').read_bytes())}} if ARCHIVE.name != 'webapp.zip' and (ROOT.parents[1] / 'webapp.zip').exists() else {}),
         })
         first, last = observations[0], observations[-1]
         manifest = {
@@ -135,8 +152,22 @@ def main():
                            'No deforestation inference is imported: the archive explicitly skips it without a comparable earlier-year baseline.',
                            'Data-use and redistribution terms require clarification before public release.'],
             'sources': [{'title': 'ASF Data Search — download service reported by the team; exact records pending', 'url': 'https://search.asf.alaska.edu/'}], 'story': [], 'provenance': '/data/tonle-sap-2026/provenance.json',
-            'collection': {'observations': observations, 'layers': layers, 'series': data['series']},
+            'collection': {'observations': observations, 'layers': layers, 'series': data['series'], **({'exposure': exposure} if exposure else {})},
         }
+        if exposure:
+            manifest['description'] = 'Eleven dated team exports with reported population, road and cropland overlap estimates and a historical-recurrence-filtered open-water proxy. Source products and scientific review remain pending.'
+            manifest['limitations'].extend([
+                'Exposure figures are team estimates, not confirmed affected people, closed roads, crop damage or rice-specific losses. WorldCover class 40 is cropland.',
+                'Baseline-filtered water uses the reported JRC v1.4 recurrence reference ending in 2021; it is not a month-matched seasonal anomaly. The provider now deprecates v1.4.',
+                'Population source filename refers to 2025; land-cover files refer to 2021. OSM snapshot date and exposure processing/validation are not supplied.',
+                'The orange proxy includes open water only, not water beneath vegetation. No baseline source raster or valid-data mask is included to check missing-data handling.',
+            ])
+            manifest['sources'].extend([
+                {'title': 'WorldPop — population source reported in archive', 'url': 'https://hub.worldpop.org/'},
+                {'title': 'ESA WorldCover — cropland source reported in archive', 'url': 'https://esa-worldcover.org/en/data-access'},
+                {'title': 'OSM / Geofabrik — roads source reported in archive', 'url': 'https://download.geofabrik.de/asia/cambodia.html'},
+                {'title': 'JRC Global Surface Water — baseline data and version notes', 'url': 'https://global-surface-water.appspot.com/download'},
+            ])
         write_json('case.json', manifest)
         index_path = ROOT / 'public/data/index.json'
         index = json.loads(index_path.read_text(encoding='utf-8'))

@@ -21,6 +21,7 @@ const changeError = ref(false), changeReady = ref(false)
 watch(() => changeReady.value && !changeError.value && !fallback.value, (ready) => emit('overlayReady', ready), { immediate: true })
 const unavailable = computed(() => imageError.value || !assetsReady.value)
 watch(unavailable, (value) => emit('ready', !value), { immediate: true })
+const fallbackBackground = computed(() => props.layer ? undefined : (props.mode === 'before' ? props.data?.before.backgroundImage : props.data?.after.backgroundImage))
 const fallbackImage = computed(() => props.layer?.image ?? (props.mode === 'before' ? props.data?.before.image : props.data?.after.image))
 let maps: Map[] = [], comparison: Compare | undefined, resizeObserver: ResizeObserver | undefined
 const stylesReady = new Set<Map>()
@@ -31,8 +32,8 @@ let basemap: StyleSpecification | undefined
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
 
 function removeData(map: Map) {
-  for (const id of ['change-areas', 'change-image', 'observation', 'coverage-line', 'coverage-fill']) if (map.getLayer(id)) map.removeLayer(id)
-  for (const id of ['change-areas', 'change-image', 'observation', 'coverage']) if (map.getSource(id)) map.removeSource(id)
+  for (const id of ['change-areas', 'change-image', 'observation', 'observation-background', 'coverage-line', 'coverage-fill']) if (map.getLayer(id)) map.removeLayer(id)
+  for (const id of ['change-areas', 'change-image', 'observation', 'observation-background', 'coverage']) if (map.getSource(id)) map.removeSource(id)
 }
 function applyData() {
   maps.forEach((map, index) => {
@@ -45,6 +46,10 @@ function applyData() {
     map.addLayer({ id: 'coverage-fill', type: 'fill', source: 'coverage', paint: { 'fill-color': '#46d4e8', 'fill-opacity': data.coverageType === 'display-extent' ? 0 : 0.035 } })
     if (assetsReady.value && !imageError.value) {
       const frame = props.mode === 'compare' ? (isMobile.value || index === 1 ? data.after : data.before) : data[props.mode]
+      if (!props.layer && frame.backgroundImage) {
+        map.addSource('observation-background', { type: 'image', url: frame.backgroundImage, coordinates: data.coordinates })
+        map.addLayer({ id: 'observation-background', type: 'raster', source: 'observation-background', paint: { 'raster-opacity': 1, 'raster-fade-duration': 0 } })
+      }
       map.addSource('observation', { type: 'image', url: props.layer?.image ?? frame.image, coordinates: data.coordinates })
       map.addLayer({ id: 'observation', type: 'raster', source: 'observation', paint: { 'raster-opacity': props.opacity / 100, 'raster-fade-duration': 0, 'raster-resampling': data.dataKind === 'team-export' ? 'nearest' : 'linear' } })
       if (!props.layer && data.change && changeReady.value && !changeError.value) {
@@ -65,6 +70,8 @@ function updateFrame() {
   maps.forEach((map, index) => {
     const source = map.getSource('observation') as ImageSource | undefined
     const frame = props.mode === 'compare' ? (isMobile.value || index === 1 ? data.after : data.before) : data[props.mode]
+    const background = map.getSource('observation-background') as ImageSource | undefined
+    if (!props.layer && frame.backgroundImage) background?.updateImage({ url: frame.backgroundImage, coordinates: data.coordinates })
     source?.updateImage({ url: props.layer?.image ?? frame.image, coordinates: data.coordinates })
   })
   updateSplit()
@@ -146,7 +153,7 @@ async function loadImages() {
     if (current === generation && !disposed) { changeReady.value = !props.layer && !!(data.change || data.areas); applyData() }
   }).catch(() => { if (current === generation && !disposed) changeError.value = true })
   try {
-    await Promise.all((props.layer ? [props.layer.image] : [data.before.image, data.after.image]).map(probeImage))
+    await Promise.all((props.layer ? [props.layer.image] : [data.before.image, data.after.image, data.before.backgroundImage, data.after.backgroundImage].filter((url): url is string => !!url)).map(probeImage))
     if (current === generation && !disposed) { assetsReady.value = true; applyData() }
   } catch { if (current === generation && !disposed) imageError.value = true }
 }
@@ -156,7 +163,7 @@ watch(() => props.mode, () => { if ((isMobile.value || fallback.value) && props.
 watch(split, updateSplit)
 watch(() => props.opacity, () => maps.forEach((map) => { if (map.getLayer('observation')) map.setPaintProperty('observation', 'raster-opacity', props.opacity / 100) }))
 watch(() => props.changeVisible, () => maps.forEach((map) => { for (const id of ['change-image', 'change-areas']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', props.changeVisible ? 'visible' : 'none') }))
-watch(() => props.focusVersion, () => focus())
+watch(() => props.focusVersion, () => { split.value = 50; focus() })
 watch(() => props.activated, (active) => {
   if (active && props.arriving) { if (props.focused) focus(); else arrive() }
 })
@@ -183,7 +190,7 @@ onUnmounted(() => { disposed = true; generation++; styleController.abort(); medi
     <div class="map-vignette" />
     <div v-if="fallback && data" class="static-comparison">
       <p><AlertTriangle :size="16" /> Interactive map unavailable. Static observation view.</p>
-      <img v-if="!imageError" :src="fallbackImage" :style="{ opacity: opacity / 100 }" :alt="`${layer?.label ?? (mode === 'before' ? data.before.label : data.after.label)} — ${data.dataKind}`" />
+      <div v-if="!imageError" class="static-frame"><img v-if="fallbackBackground" :src="fallbackBackground" alt="Uncalibrated radar context beneath the selected water layer" /><img :src="fallbackImage" :style="{ opacity: opacity / 100 }" :alt="`${layer?.label ?? (mode === 'before' ? data.before.label : data.after.label)} — ${data.dataKind}`" /></div>
       <p>{{ layer ? 'Season-wide layer shown. Choose Dated comparison to return to the date pair.' : 'Use the Before and After buttons to compare.' }} Map coordinates and placement cannot be inspected in this view.</p>
     </div>
     <div class="map-location-label"><span class="tiny-square" /> CAMBODIA <span>/ FLOOD EXPLORER</span></div>

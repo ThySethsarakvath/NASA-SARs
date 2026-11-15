@@ -27,4 +27,22 @@ describe('Imported team export contract', () => {
     expect(() => parseCase({ ...data, collection: { ...collection, series: collection.series.map((r, i) => i ? r : { ...r, total: 0 }) } })).toThrow(/totals/)
     expect(() => parseCase({ ...data, provenance: '/data/../secret.json' })).toThrow(/public/)
   })
+  it('retains exposure estimates and source versions without elevating review status', () => {
+    const data = parseCase(fixture()), exposure = data.collection!.exposure!
+    expect(exposure.records).toHaveLength(11)
+    expect(exposure.records[8]!.classifiedWater.areaKm2).toBe(10003.3)
+    expect(exposure.records[8]!.baselineFiltered.population).toBe(12644)
+    expect(exposure.sources.baseline).toBe('recurrence_100E_20Nv1_4_2021.tif')
+    expect(exposure.sources.recurrenceBelowPct).toBe(25)
+    expect(data.reviewStatus).toBe('unreviewed')
+  })
+  it('rejects invalid exposure dates, negative values, bad thresholds and unsafe proxy paths', () => {
+    const data = parseCase(fixture()), collection = data.collection!, exposure = collection.exposure!
+    const withExposure = (change: Partial<typeof exposure>) => ({ ...data, collection: { ...collection, exposure: { ...exposure, ...change } } })
+    expect(() => parseCase(withExposure({ sources: { ...exposure.sources, recurrenceBelowPct: 101 } }))).toThrow(/threshold/)
+    expect(() => parseCase(withExposure({ records: [{ ...exposure.records[0]!, date: '2026-01-01' }] }))).toThrow(/date/)
+    expect(() => parseCase(withExposure({ records: [{ ...exposure.records[0]!, classifiedWater: { ...exposure.records[0]!.classifiedWater, population: -1 } }] }))).toThrow(/negative/)
+    expect(() => parseCase({ ...data, collection: { ...collection, observations: collection.observations.map((o, i) => i ? o : { ...o, unusualImage: 'https://example.com/private.png' }) } })).toThrow(/public/)
+  })
+
 })

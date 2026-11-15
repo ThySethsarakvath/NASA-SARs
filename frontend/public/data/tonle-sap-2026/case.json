@@ -6,7 +6,7 @@
   "dataKind": "team-export",
   "interpretation": "possible-inundation",
   "reviewStatus": "unreviewed",
-  "description": "Eleven dated water-classification and radar-display exports supplied by the data team, June–October 2026. Source provenance and scientific review remain pending.",
+  "description": "Eleven dated team exports with reported population, road and cropland overlap estimates and a historical-recurrence-filtered open-water proxy. Source products and scientific review remain pending.",
   "instrument": "Reported NISAR L-band; original products not supplied",
   "product": "Team-derived PNG display layers; original product level, version and polarization unknown",
   "measurement": "Team-classified water categories",
@@ -115,12 +115,32 @@
     "Export bounds are not proof of valid observation support; transparency also includes background and missing data.",
     "Area figures are imported team estimates, not reproduced or independently validated. Open-water area differs from total classified area.",
     "No deforestation inference is imported: the archive explicitly skips it without a comparable earlier-year baseline.",
-    "Data-use and redistribution terms require clarification before public release."
+    "Data-use and redistribution terms require clarification before public release.",
+    "Exposure figures are team estimates, not confirmed affected people, closed roads, crop damage or rice-specific losses. WorldCover class 40 is cropland.",
+    "Baseline-filtered water uses the reported JRC v1.4 recurrence reference ending in 2021; it is not a month-matched seasonal anomaly. The provider now deprecates v1.4.",
+    "Population source filename refers to 2025; land-cover files refer to 2021. OSM snapshot date and exposure processing/validation are not supplied.",
+    "The orange proxy includes open water only, not water beneath vegetation. No baseline source raster or valid-data mask is included to check missing-data handling."
   ],
   "sources": [
     {
       "title": "ASF Data Search — download service reported by the team; exact records pending",
       "url": "https://search.asf.alaska.edu/"
+    },
+    {
+      "title": "WorldPop — population source reported in archive",
+      "url": "https://hub.worldpop.org/"
+    },
+    {
+      "title": "ESA WorldCover — cropland source reported in archive",
+      "url": "https://esa-worldcover.org/en/data-access"
+    },
+    {
+      "title": "OSM / Geofabrik — roads source reported in archive",
+      "url": "https://download.geofabrik.de/asia/cambodia.html"
+    },
+    {
+      "title": "JRC Global Surface Water — baseline data and version notes",
+      "url": "https://global-surface-water.appspot.com/download"
     }
   ],
   "story": [],
@@ -131,67 +151,78 @@
         "date": "2026-06-19",
         "image": "/data/tonle-sap-2026/water_20260619.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260619.png",
-        "inputId": "Team export water_20260619.png"
+        "inputId": "Team export water_20260619.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260619.png"
       },
       {
         "date": "2026-07-01",
         "image": "/data/tonle-sap-2026/water_20260701.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260701.png",
-        "inputId": "Team export water_20260701.png"
+        "inputId": "Team export water_20260701.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260701.png"
       },
       {
         "date": "2026-07-13",
         "image": "/data/tonle-sap-2026/water_20260713.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260713.png",
-        "inputId": "Team export water_20260713.png"
+        "inputId": "Team export water_20260713.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260713.png"
       },
       {
         "date": "2026-07-25",
         "image": "/data/tonle-sap-2026/water_20260725.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260725.png",
-        "inputId": "Team export water_20260725.png"
+        "inputId": "Team export water_20260725.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260725.png"
       },
       {
         "date": "2026-08-18",
         "image": "/data/tonle-sap-2026/water_20260818.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260818.png",
-        "inputId": "Team export water_20260818.png"
+        "inputId": "Team export water_20260818.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260818.png"
       },
       {
         "date": "2026-08-30",
         "image": "/data/tonle-sap-2026/water_20260830.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260830.png",
-        "inputId": "Team export water_20260830.png"
+        "inputId": "Team export water_20260830.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260830.png"
       },
       {
         "date": "2026-09-11",
         "image": "/data/tonle-sap-2026/water_20260911.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260911.png",
-        "inputId": "Team export water_20260911.png"
+        "inputId": "Team export water_20260911.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260911.png"
       },
       {
         "date": "2026-09-23",
         "image": "/data/tonle-sap-2026/water_20260923.png",
         "radarImage": "/data/tonle-sap-2026/sar_20260923.png",
-        "inputId": "Team export water_20260923.png"
+        "inputId": "Team export water_20260923.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20260923.png"
       },
       {
         "date": "2026-10-05",
         "image": "/data/tonle-sap-2026/water_20261005.png",
         "radarImage": "/data/tonle-sap-2026/sar_20261005.png",
-        "inputId": "Team export water_20261005.png"
+        "inputId": "Team export water_20261005.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20261005.png"
       },
       {
         "date": "2026-10-17",
         "image": "/data/tonle-sap-2026/water_20261017.png",
         "radarImage": "/data/tonle-sap-2026/sar_20261017.png",
-        "inputId": "Team export water_20261017.png"
+        "inputId": "Team export water_20261017.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20261017.png"
       },
       {
         "date": "2026-10-29",
         "image": "/data/tonle-sap-2026/water_20261029.png",
         "radarImage": "/data/tonle-sap-2026/sar_20261029.png",
-        "inputId": "Team export water_20261029.png"
+        "inputId": "Team export water_20261029.png",
+        "unusualImage": "/data/tonle-sap-2026/unusual_20261029.png"
       }
     ],
     "layers": [
@@ -311,6 +342,192 @@
         "flooded_veg": 219.4,
         "total": 7348.6
       }
-    ]
+    ],
+    "exposure": {
+      "records": [
+        {
+          "date": "2026-06-19",
+          "classifiedWater": {
+            "areaKm2": 3194.4,
+            "population": 333126,
+            "roadKm": 1036.8,
+            "croplandHa": 75662
+          },
+          "baselineFiltered": {
+            "areaKm2": 311.2,
+            "population": 2004,
+            "roadKm": 67.9,
+            "croplandHa": 29238
+          }
+        },
+        {
+          "date": "2026-07-01",
+          "classifiedWater": {
+            "areaKm2": 3139.5,
+            "population": 332081,
+            "roadKm": 1032.4,
+            "croplandHa": 72391
+          },
+          "baselineFiltered": {
+            "areaKm2": 436.6,
+            "population": 2185,
+            "roadKm": 68.2,
+            "croplandHa": 41933
+          }
+        },
+        {
+          "date": "2026-07-13",
+          "classifiedWater": {
+            "areaKm2": 3219.0,
+            "population": 330758,
+            "roadKm": 1000.1,
+            "croplandHa": 63645
+          },
+          "baselineFiltered": {
+            "areaKm2": 339.2,
+            "population": 1851,
+            "roadKm": 58.5,
+            "croplandHa": 31411
+          }
+        },
+        {
+          "date": "2026-07-25",
+          "classifiedWater": {
+            "areaKm2": 3338.1,
+            "population": 394920,
+            "roadKm": 1202.3,
+            "croplandHa": 64478
+          },
+          "baselineFiltered": {
+            "areaKm2": 372.9,
+            "population": 2193,
+            "roadKm": 69.7,
+            "croplandHa": 34947
+          }
+        },
+        {
+          "date": "2026-08-18",
+          "classifiedWater": {
+            "areaKm2": 4372.0,
+            "population": 515473,
+            "roadKm": 1549.0,
+            "croplandHa": 103889
+          },
+          "baselineFiltered": {
+            "areaKm2": 376.8,
+            "population": 1948,
+            "roadKm": 53.2,
+            "croplandHa": 35597
+          }
+        },
+        {
+          "date": "2026-08-30",
+          "classifiedWater": {
+            "areaKm2": 4860.2,
+            "population": 500571,
+            "roadKm": 1469.3,
+            "croplandHa": 103973
+          },
+          "baselineFiltered": {
+            "areaKm2": 210.1,
+            "population": 1564,
+            "roadKm": 35.3,
+            "croplandHa": 18618
+          }
+        },
+        {
+          "date": "2026-09-11",
+          "classifiedWater": {
+            "areaKm2": 5869.3,
+            "population": 613032,
+            "roadKm": 1893.7,
+            "croplandHa": 150534
+          },
+          "baselineFiltered": {
+            "areaKm2": 225.4,
+            "population": 2198,
+            "roadKm": 33.0,
+            "croplandHa": 19523
+          }
+        },
+        {
+          "date": "2026-09-23",
+          "classifiedWater": {
+            "areaKm2": 8700.3,
+            "population": 763178,
+            "roadKm": 2767.3,
+            "croplandHa": 383005
+          },
+          "baselineFiltered": {
+            "areaKm2": 1073.9,
+            "population": 7872,
+            "roadKm": 199.8,
+            "croplandHa": 101886
+          }
+        },
+        {
+          "date": "2026-10-05",
+          "classifiedWater": {
+            "areaKm2": 10003.3,
+            "population": 715644,
+            "roadKm": 2769.2,
+            "croplandHa": 518999
+          },
+          "baselineFiltered": {
+            "areaKm2": 1463.2,
+            "population": 12644,
+            "roadKm": 301.8,
+            "croplandHa": 137349
+          }
+        },
+        {
+          "date": "2026-10-17",
+          "classifiedWater": {
+            "areaKm2": 9148.4,
+            "population": 709998,
+            "roadKm": 2629.0,
+            "croplandHa": 427510
+          },
+          "baselineFiltered": {
+            "areaKm2": 988.2,
+            "population": 8295,
+            "roadKm": 199.6,
+            "croplandHa": 90467
+          }
+        },
+        {
+          "date": "2026-10-29",
+          "classifiedWater": {
+            "areaKm2": 7348.6,
+            "population": 517038,
+            "roadKm": 1784.7,
+            "croplandHa": 300835
+          },
+          "baselineFiltered": {
+            "areaKm2": 502.0,
+            "population": 4084,
+            "roadKm": 86.0,
+            "croplandHa": 43186
+          }
+        }
+      ],
+      "sources": {
+        "population": [
+          "khm_pop_2025_CN_100m_R2025A_v1.tif"
+        ],
+        "cropland": [
+          "ESA_WorldCover_10m_2021_v200_N09E102_Map.tif",
+          "ESA_WorldCover_10m_2021_v200_N09E105_Map.tif",
+          "ESA_WorldCover_10m_2021_v200_N12E102_Map.tif",
+          "ESA_WorldCover_10m_2021_v200_N12E105_Map.tif"
+        ],
+        "cropClass": 40,
+        "roads": "gis_osm_roads_free_1.shp",
+        "roadsFilter": "drivable",
+        "baseline": "recurrence_100E_20Nv1_4_2021.tif",
+        "recurrenceBelowPct": 25.0,
+        "method": "Archive README reports intersections with WorldPop population, OSM drivable roads and WorldCover cropland class 40. Baseline-filtered output uses open water where historical JRC recurrence is below the supplied threshold; flooded vegetation is excluded. impact.py, input exposure rasters/vectors, baseline nodata handling and validation evidence were not supplied. This is a screening proxy, not a season-matched anomaly or an operational alert."
+      }
+    }
   }
 }

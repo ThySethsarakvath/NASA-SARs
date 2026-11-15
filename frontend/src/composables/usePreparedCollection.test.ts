@@ -5,10 +5,10 @@ import raw from '../../public/data/tonle-sap-2026/case.json?raw'
 import { parseCase } from '../data/contract'
 import { usePreparedCollection } from './usePreparedCollection'
 
-function harness() {
+function harness(data = parseCase(JSON.parse(raw))) {
   let state!: ReturnType<typeof usePreparedCollection>
   const wrapper = mount(defineComponent({ setup() {
-    state = usePreparedCollection(shallowRef(parseCase(JSON.parse(raw))))
+    state = usePreparedCollection(shallowRef(data))
     return () => null
   } }))
   return { wrapper, state }
@@ -40,4 +40,31 @@ describe('Prepared collection selection', () => {
     expect(second.state.afterDate.value).toBe('2026-10-29')
     second.wrapper.unmount()
   })
+  it('selects the lowest earlier open-water date and high-water date with radar context', async () => {
+    const { state, wrapper } = harness()
+    state.compareLowHigh()
+    await flushPromises()
+    expect(state.beforeDate.value).toBe('2026-07-01')
+    expect(state.afterDate.value).toBe('2026-10-05')
+    expect(state.data.value?.before.backgroundImage).toContain('sar_20260701.png')
+    expect(state.data.value?.after.image).toContain('water_20261005.png')
+    expect(state.data.value?.change).toBeUndefined()
+    expect(location.search).toContain('display=both')
+    wrapper.unmount()
+  })
+  it('restores the baseline filter and never silently substitutes a missing orange layer', async () => {
+    history.replaceState(null, '', '/?from=2026-06-19&to=2026-10-29&display=both&baseline=rare-water')
+    const source = parseCase(JSON.parse(raw))
+    source.collection!.observations[0]!.unusualImage = undefined
+    const { state, wrapper } = harness(source)
+    expect(state.baselineOnly.value).toBe(true)
+    expect(state.selectionError.value).toContain('unavailable')
+    expect(state.data.value).toBeNull()
+    state.baselineOnly.value = false
+    await flushPromises()
+    expect(state.data.value?.before.image).toContain('water_20260619.png')
+    expect(location.search).not.toContain('baseline=')
+    wrapper.unmount()
+  })
+
 })

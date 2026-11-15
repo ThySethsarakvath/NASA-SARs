@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{ arriving?: boolean; activated?: boolean
 const emit = defineEmits<{ ready: [value: boolean] }>()
 
 const { entries, selectedId, activeCase, loading, error, mode, changeVisible, opacity, storyIndex, storyStep, sourcesOpen, panelOpen, introVisible, focused, focusVersion, query, filteredEntries, focusCase, startStory, moveStory, retry } = useExplorer()
-const { data: displayCase, collection, layer, beforeDate, afterDate, representation, layerId } = usePreparedCollection(activeCase)
+const { data: displayCase, collection, layer, beforeDate, afterDate, representation, layerId, baselineOnly, baselineAvailable, selectionError, lowHighPair, compareLowHigh } = usePreparedCollection(activeCase)
 if (props.arriving) introVisible.value = false
 watch(activeCase, (data) => { if (data?.dataKind === 'team-export') focusCase() })
 const comparisonReady = ref(false), overlayReady = ref(false), shareStatus = ref('')
@@ -66,9 +66,10 @@ function selectCase(id: string) { selectedId.value = id; focusCase() }
 
       <main tabindex="-1" class="map-main" aria-label="Flood observation explorer">
         <div class="mobile-case-bar"><select v-model="selectedId" aria-label="Select study window"><option v-for="entry in entries" :key="entry.id" :value="entry.id">{{ entry.title }}</option></select><button class="icon-button" aria-label="Open evidence panel" @click="panelOpen = !panelOpen"><PanelRightOpen :size="18" /></button></div>
-        <PreparedDataControls v-if="collection" class="prepared-data-bar" :collection="collection" v-model:before="beforeDate" v-model:after="afterDate" v-model:representation="representation" v-model:layer="layerId" @update:before="changeVisible = false" @update:after="changeVisible = false" @update:layer="changeVisible = false" />
+        <PreparedDataControls v-if="collection" class="prepared-data-bar" :collection="collection" :baseline-available="baselineAvailable" :can-compare-low-high="!!lowHighPair" v-model:baseline-only="baselineOnly" @compare-low-high="compareLowHigh(); mode = 'compare'; changeVisible = false; focusCase()" v-model:before="beforeDate" v-model:after="afterDate" v-model:representation="representation" v-model:layer="layerId" @update:before="changeVisible = false" @update:after="changeVisible = false" @update:layer="changeVisible = false" @update:baseline-only="changeVisible = false" />
         <MapWorkspace :data="displayCase" :layer="layer" :arriving="props.arriving" :activated="props.activated" :mode="mode" :change-visible="changeVisible" :opacity="opacity" :focused="focused" :focus-version="focusVersion" :story-step="storyStep" @ready="comparisonReady = $event" @overlay-ready="overlayReady = $event; if (!$event) changeVisible = false" @single-view-needed="mode = 'after'" @view-ready="emit('ready', $event)" />
         <div v-if="loading" class="map-loading" role="status"><span class="loading-ring" />Loading study window…</div>
+        <div v-if="selectionError" class="map-notice image-notice" role="alert">{{ selectionError }}</div>
         <div v-if="error" class="map-error" role="alert"><Info :size="20" /><h2>We couldn’t open this case.</h2><p>{{ error }}</p><button class="primary-button" @click="retry"><RotateCcw :size="15" />Try again</button></div>
 
         <Transition name="intro">
@@ -91,7 +92,7 @@ function selectCase(id: string) { selectedId.value = id; focusCase() }
         <div class="map-bottom-strip"><span><span class="tiny-square" />{{ activeCase?.dataKind === 'synthetic-demo' ? 'SYNTHETIC DEVELOPMENT CASE' : activeCase?.dataKind === 'team-export' ? 'TEAM EXPORTS · UNREVIEWED' : activeCase?.dataKind === 'real-observation' ? 'REAL OBSERVATIONS' : activeCase ? 'SURROGATE EXAMPLE' : 'AWAITING CASE DATA' }}</span><button @click="panelOpen = true"><Info :size="13" />Read the evidence</button></div>
       </main>
 
-      <EvidencePanel :data="displayCase" :layer="layer" :open="panelOpen" :loading="loading" @close="panelOpen = false" @sources="sourcesOpen = true" />
+      <EvidencePanel :data="displayCase" :layer="layer" :mode="mode" :baseline-only="baselineOnly" :open="panelOpen" :loading="loading" @close="panelOpen = false" @sources="sourcesOpen = true" />
     </div>
     <ComparisonControls v-model:mode="mode" v-model:change-visible="changeVisible" v-model:opacity="opacity" :data="displayCase" :layer="layer" :ready="comparisonReady" :overlay-ready="overlayReady" @interact="introVisible = false" />
   </div>

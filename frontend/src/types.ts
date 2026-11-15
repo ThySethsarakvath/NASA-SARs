@@ -17,13 +17,26 @@ export interface Observation {
   date: string
   image: string
   inputId: string
+  backgroundImage?: string
 }
 export interface SourceLink { title: string; url: string }
 export interface LegendEntry { label: string; color: string }
-export interface PreparedObservation { date: string; image: string; radarImage: string; inputId: string }
+export interface PreparedObservation { date: string; image: string; radarImage: string; unusualImage?: string; inputId: string }
 export interface PreparedLayer { id: 'frequency' | 'water_class' | 'change'; label: string; description: string; image: string; legend: LegendEntry[] }
 export interface ReportedArea { date: string; open_water: number; flooded_veg: number; total: number }
-export interface PreparedCollection { observations: PreparedObservation[]; layers: PreparedLayer[]; series: ReportedArea[] }
+export interface ExposureValues { areaKm2: number | null; population: number | null; roadKm: number | null; croplandHa: number | null }
+export interface ReportedExposure { date: string; classifiedWater: ExposureValues; baselineFiltered: ExposureValues }
+export interface ExposureSources {
+  population: string[]
+  cropland: string[]
+  cropClass: number | null
+  roads: string | null
+  roadsFilter: string | null
+  baseline: string | null
+  recurrenceBelowPct: number | null
+  method: string
+}
+export interface PreparedCollection { observations: PreparedObservation[]; layers: PreparedLayer[]; series: ReportedArea[]; exposure?: { records: ReportedExposure[]; sources: ExposureSources } }
 export interface StoryStep {
   title: string
   body: string

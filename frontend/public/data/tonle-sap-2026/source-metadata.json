@@ -165,6 +165,17 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20260619.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     },
     "2026-07-01": {
@@ -181,6 +192,17 @@
       ],
       "sar": "data/sar_20260701.png",
       "sar_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
+      ],
+      "unusual": "data/unusual_20260701.png",
+      "unusual_bounds": [
         [
           11.335031,
           102.387214
@@ -213,6 +235,17 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20260713.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     },
     "2026-07-25": {
@@ -229,6 +262,17 @@
       ],
       "sar": "data/sar_20260725.png",
       "sar_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
+      ],
+      "unusual": "data/unusual_20260725.png",
+      "unusual_bounds": [
         [
           11.335031,
           102.387214
@@ -261,6 +305,17 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20260818.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     },
     "2026-08-30": {
@@ -277,6 +332,17 @@
       ],
       "sar": "data/sar_20260830.png",
       "sar_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
+      ],
+      "unusual": "data/unusual_20260830.png",
+      "unusual_bounds": [
         [
           11.335031,
           102.387214
@@ -309,6 +375,17 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20260911.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     },
     "2026-09-23": {
@@ -325,6 +402,17 @@
       ],
       "sar": "data/sar_20260923.png",
       "sar_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
+      ],
+      "unusual": "data/unusual_20260923.png",
+      "unusual_bounds": [
         [
           11.335031,
           102.387214
@@ -357,6 +445,17 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20261005.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     },
     "2026-10-17": {
@@ -373,6 +472,17 @@
       ],
       "sar": "data/sar_20261017.png",
       "sar_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
+      ],
+      "unusual": "data/unusual_20261017.png",
+      "unusual_bounds": [
         [
           11.335031,
           102.387214
@@ -405,7 +515,146 @@
           14.341002,
           105.524254
         ]
+      ],
+      "unusual": "data/unusual_20261029.png",
+      "unusual_bounds": [
+        [
+          11.335031,
+          102.387214
+        ],
+        [
+          14.341002,
+          105.524254
+        ]
       ]
     }
+  },
+  "impact": {
+    "2026-06-19": {
+      "flooded_km2": 3194.4,
+      "flooded_people": 333126,
+      "flooded_road_km": 1036.8,
+      "flooded_crop_ha": 75662,
+      "unusual_km2": 311.2,
+      "unusual_people": 2004,
+      "unusual_road_km": 67.9,
+      "unusual_crop_ha": 29238
+    },
+    "2026-07-01": {
+      "flooded_km2": 3139.5,
+      "flooded_people": 332081,
+      "flooded_road_km": 1032.4,
+      "flooded_crop_ha": 72391,
+      "unusual_km2": 436.6,
+      "unusual_people": 2185,
+      "unusual_road_km": 68.2,
+      "unusual_crop_ha": 41933
+    },
+    "2026-07-13": {
+      "flooded_km2": 3219.0,
+      "flooded_people": 330758,
+      "flooded_road_km": 1000.1,
+      "flooded_crop_ha": 63645,
+      "unusual_km2": 339.2,
+      "unusual_people": 1851,
+      "unusual_road_km": 58.5,
+      "unusual_crop_ha": 31411
+    },
+    "2026-07-25": {
+      "flooded_km2": 3338.1,
+      "flooded_people": 394920,
+      "flooded_road_km": 1202.3,
+      "flooded_crop_ha": 64478,
+      "unusual_km2": 372.9,
+      "unusual_people": 2193,
+      "unusual_road_km": 69.7,
+      "unusual_crop_ha": 34947
+    },
+    "2026-08-18": {
+      "flooded_km2": 4372.0,
+      "flooded_people": 515473,
+      "flooded_road_km": 1549.0,
+      "flooded_crop_ha": 103889,
+      "unusual_km2": 376.8,
+      "unusual_people": 1948,
+      "unusual_road_km": 53.2,
+      "unusual_crop_ha": 35597
+    },
+    "2026-08-30": {
+      "flooded_km2": 4860.2,
+      "flooded_people": 500571,
+      "flooded_road_km": 1469.3,
+      "flooded_crop_ha": 103973,
+      "unusual_km2": 210.1,
+      "unusual_people": 1564,
+      "unusual_road_km": 35.3,
+      "unusual_crop_ha": 18618
+    },
+    "2026-09-11": {
+      "flooded_km2": 5869.3,
+      "flooded_people": 613032,
+      "flooded_road_km": 1893.7,
+      "flooded_crop_ha": 150534,
+      "unusual_km2": 225.4,
+      "unusual_people": 2198,
+      "unusual_road_km": 33.0,
+      "unusual_crop_ha": 19523
+    },
+    "2026-09-23": {
+      "flooded_km2": 8700.3,
+      "flooded_people": 763178,
+      "flooded_road_km": 2767.3,
+      "flooded_crop_ha": 383005,
+      "unusual_km2": 1073.9,
+      "unusual_people": 7872,
+      "unusual_road_km": 199.8,
+      "unusual_crop_ha": 101886
+    },
+    "2026-10-05": {
+      "flooded_km2": 10003.3,
+      "flooded_people": 715644,
+      "flooded_road_km": 2769.2,
+      "flooded_crop_ha": 518999,
+      "unusual_km2": 1463.2,
+      "unusual_people": 12644,
+      "unusual_road_km": 301.8,
+      "unusual_crop_ha": 137349
+    },
+    "2026-10-17": {
+      "flooded_km2": 9148.4,
+      "flooded_people": 709998,
+      "flooded_road_km": 2629.0,
+      "flooded_crop_ha": 427510,
+      "unusual_km2": 988.2,
+      "unusual_people": 8295,
+      "unusual_road_km": 199.6,
+      "unusual_crop_ha": 90467
+    },
+    "2026-10-29": {
+      "flooded_km2": 7348.6,
+      "flooded_people": 517038,
+      "flooded_road_km": 1784.7,
+      "flooded_crop_ha": 300835,
+      "unusual_km2": 502.0,
+      "unusual_people": 4084,
+      "unusual_road_km": 86.0,
+      "unusual_crop_ha": 43186
+    }
+  },
+  "impact_meta": {
+    "population": [
+      "khm_pop_2025_CN_100m_R2025A_v1.tif"
+    ],
+    "cropland": [
+      "ESA_WorldCover_10m_2021_v200_N09E102_Map.tif",
+      "ESA_WorldCover_10m_2021_v200_N09E105_Map.tif",
+      "ESA_WorldCover_10m_2021_v200_N12E102_Map.tif",
+      "ESA_WorldCover_10m_2021_v200_N12E105_Map.tif"
+    ],
+    "crop_class": 40,
+    "roads": "gis_osm_roads_free_1.shp",
+    "roads_filter": "drivable",
+    "baseline": "recurrence_100E_20Nv1_4_2021.tif",
+    "unusual_below_pct": 25.0
   }
 }
